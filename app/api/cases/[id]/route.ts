@@ -3,11 +3,8 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-export async function GET(
-  _request: Request,
-  context: { params: Record<string, string> }
-) {
-  const { id } = context.params
+export async function GET(_request: Request, { params }: any) {
+  const { id } = await params
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) {
     return NextResponse.json(
@@ -50,11 +47,8 @@ export async function GET(
   }
 }
 
-export async function DELETE(
-  _request: Request,
-  context: { params: Record<string, string> }
-) {
-  const { id } = context.params
+export async function DELETE(_request: Request, { params }: any) {
+  const { id } = await params
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) {
     return NextResponse.json(

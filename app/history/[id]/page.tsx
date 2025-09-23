@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 
 interface CaseDetail {
@@ -21,11 +21,8 @@ interface CaseDetail {
   createdAt: string
 }
 
-export default function CaseDetailsPage({
-  params,
-}: {
-  params: { id: string }
-}) {
+export default function CaseDetailsPage() {
+  const params = useParams<{ id: string }>()
   const { data: session, status } = useSession()
   const router = useRouter()
   const [item, setItem] = useState<CaseDetail | null>(null)
