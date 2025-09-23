@@ -28,6 +28,30 @@ export default function DashboardPage() {
     }
   }, [session, status, router])
 
+  // Load recent cases (hooks must be before any early returns)
+  useEffect(() => {
+    let ignore = false
+    const load = async () => {
+      try {
+        setLoadingCases(true)
+        const res = await fetch('/api/cases?limit=5&page=1')
+        const data = await res.json()
+        if (!ignore && data?.success) {
+          setRecentCases(data.data)
+          setTotalCases(data.pagination?.total ?? 0)
+        }
+      } catch {
+        // soft-fail
+      } finally {
+        if (!ignore) setLoadingCases(false)
+      }
+    }
+    if (status === 'authenticated') load()
+    return () => {
+      ignore = true
+    }
+  }, [status])
+
   if (status === 'loading') {
     return (
       <div className='min-h-screen flex items-center justify-center'>
@@ -43,29 +67,6 @@ export default function DashboardPage() {
   const handleSignOut = () => {
     signOut({ callbackUrl: '/' })
   }
-
-  useEffect(() => {
-    let ignore = false
-    const load = async () => {
-      try {
-        setLoadingCases(true)
-        const res = await fetch('/api/cases?limit=5&page=1')
-        const data = await res.json()
-        if (!ignore && data?.success) {
-          setRecentCases(data.data)
-          setTotalCases(data.pagination?.total ?? 0)
-        }
-      } catch (e) {
-        // soft-fail
-      } finally {
-        if (!ignore) setLoadingCases(false)
-      }
-    }
-    if (status === 'authenticated') load()
-    return () => {
-      ignore = true
-    }
-  }, [status])
 
   return (
     <div className='min-h-screen bg-gray-50'>

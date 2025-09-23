@@ -106,7 +106,7 @@ body {
 
 /* Loading animations for medical data processing */
 .medical-loading {
-  @apply animate-pulse-slow;
+  @apply animate-pulse;
 }
 
 .medical-spinner {
