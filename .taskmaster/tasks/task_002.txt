@@ -1,0 +1,37 @@
+# Task ID: 2
+# Title: Database Setup with PostgreSQL and Prisma
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Set up PostgreSQL database with Prisma ORM and create initial schema
+# Details:
+Configure PostgreSQL database (local development and Vercel Postgres for production), set up Prisma ORM, create User and Case models, and run initial migrations.
+
+# Test Strategy:
+Test database connection, create test records, and verify schema is correct.
+
+# Subtasks:
+## 1. Install Prisma and Database Client Dependencies [pending]
+### Dependencies: None
+### Description: Add Prisma CLI and Prisma Client to the project dependencies. This will enable interaction with the database and generation of the Prisma schema.
+### Details:
+Run `npm install prisma @prisma/client` or `yarn add prisma @prisma/client`. Ensure these are added to `package.json`.
+
+## 2. Initialize Prisma and Configure Local PostgreSQL Connection [pending]
+### Dependencies: 2.1
+### Description: Initialize Prisma in the project, configure the `schema.prisma` file to use PostgreSQL, and set up the local development database connection string.
+### Details:
+Run `npx prisma init` to create the `prisma` directory and `schema.prisma`. Update `schema.prisma` to set `provider = "postgresql"`. Add `DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase?schema=public"` to `.env` for local development. Ensure a local PostgreSQL instance is running or provide instructions for setting one up (e.g., via Docker).
+
+## 3. Define User and Case Models in Prisma Schema [pending]
+### Dependencies: 2.2
+### Description: Create the `User` and `Case` models within the `schema.prisma` file, including their respective fields and relationships.
+### Details:
+Add the `User` model with fields like `id` (UUID), `email` (unique), `name`, `createdAt`, `updatedAt`. Add the `Case` model with fields like `id` (UUID), `title`, `content`, `userId` (foreign key), `createdAt`, `updatedAt`. Establish a one-to-many relationship between `User` and `Case`.
+
+## 4. Generate and Apply Initial Database Migration [pending]
+### Dependencies: 2.3
+### Description: Create the first database migration based on the defined Prisma schema and apply it to the local PostgreSQL database.
+### Details:
+Run `npx prisma migrate dev --name init_user_case_models` to generate the migration files. Then, apply the migration to the local database. Verify the tables are created in the local PostgreSQL database using a database client (e.g., DBeaver, pgAdmin).
+

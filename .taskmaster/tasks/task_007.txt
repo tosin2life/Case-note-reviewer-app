@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Case Management System
+# Status: pending
+# Dependencies: 6
+# Priority: medium
+# Description: Build functionality to save, view, and manage case history
+# Details:
+Implement case storage in database, create case history view with pagination, add filtering by date and score range, and implement case deletion functionality.
+
+# Test Strategy:
+Test saving cases, viewing history, filtering, and deletion.

@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: Google Gemini AI Integration
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Integrate Google Gemini API for medical case analysis and scoring
+# Details:
+Set up Google Gemini API client, create medical case analysis prompts, implement scoring logic for 4 criteria (History & Physical, Differential Diagnosis, Assessment & Treatment, Follow-up), and add usage tracking for free tier limits.
+
+# Test Strategy:
+Test AI analysis with sample case notes and verify scoring accuracy.

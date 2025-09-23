@@ -1,0 +1,43 @@
+# Task ID: 1
+# Title: Project Setup and Initialization
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Set up the Next.js project structure and basic configuration
+# Details:
+Initialize the Next.js project with TypeScript, Tailwind CSS, and necessary dependencies for the medical case review application. Configure ESLint, Prettier, and development environment.
+
+# Test Strategy:
+Verify project builds successfully and all dependencies are installed correctly.
+
+# Subtasks:
+## 1. Initialize Next.js Project with TypeScript [done]
+### Dependencies: None
+### Description: Create a new Next.js project using the official CLI, ensuring TypeScript is enabled from the start. This establishes the foundational project structure.
+### Details:
+Execute `npx create-next-app@latest my-casenote-reviewer --typescript --eslint --tailwind --src-dir --app` (or similar command based on desired project structure, e.g., `pages` directory if not using `app` router yet). Verify the basic project structure, `package.json`, and `tsconfig.json` are correctly generated.
+
+## 2. Integrate and Configure Tailwind CSS [done]
+### Dependencies: 1.1
+### Description: Set up Tailwind CSS within the Next.js project for utility-first styling. This includes installing necessary packages and configuring Tailwind's files.
+### Details:
+If not already included in the `create-next-app` command, install Tailwind CSS, PostCSS, and Autoprefixer: `npm install -D tailwindcss postcss autoprefixer`. Initialize Tailwind CSS: `npx tailwindcss init -p`. Configure `tailwind.config.js` to scan relevant files (e.g., `app/**/*.{js,ts,jsx,tsx,mdx}`, `pages/**/*.{js,ts,jsx,tsx,mdx}`, `components/**/*.{js,ts,jsx,tsx,mdx}`). Add Tailwind directives to `src/app/globals.css` (or `src/styles/globals.css` if using `pages` router).
+
+## 3. Install Core Application Dependencies [done]
+### Dependencies: 1.1
+### Description: Install essential third-party libraries and packages required for common application functionalities, beyond the basic Next.js and styling setup.
+### Details:
+Identify and install common dependencies for a medical case review application. This might include: `react-icons` for UI icons, `axios` or `fetch` polyfills for API requests, a date utility library like `date-fns` or `moment` (if not using native Date API), and potentially a UI component library if not relying solely on Tailwind. For now, focus on general utilities. Example: `npm install react-icons axios date-fns`.
+
+## 4. Configure ESLint and Prettier for Code Quality [done]
+### Dependencies: 1.1
+### Description: Set up ESLint for code linting and Prettier for code formatting to maintain consistent code style and catch potential issues early.
+### Details:
+Ensure ESLint is configured for Next.js and TypeScript (usually handled by `create-next-app`). Install Prettier and its ESLint integration: `npm install -D prettier eslint-config-prettier eslint-plugin-prettier`. Create or update `.eslintrc.json` to extend `prettier` and `plugin:prettier/recommended`. Create `.prettierrc.json` with desired formatting rules (e.g., `semi: false`, `singleQuote: true`, `tabWidth: 2`). Add `lint` and `format` scripts to `package.json` (e.g., `"lint": "next lint", "format": "prettier --write ."`).
+
+## 5. Verify Development Environment and Build Configuration [done]
+### Dependencies: 1.1, 1.2, 1.3, 1.4
+### Description: Confirm that the development server runs correctly, the project can be built for production, and essential environment variables are handled.
+### Details:
+Ensure `package.json` contains standard Next.js scripts: `dev`, `build`, `start`. Test each script. Verify `next.config.js` is present and can be extended for future configurations. Document initial environment variables needed (e.g., `NEXT_PUBLIC_APP_NAME`) and ensure `.env.local` is set up correctly and ignored by Git. Check that the `.gitignore` file is properly configured to exclude sensitive files and build artifacts.
+

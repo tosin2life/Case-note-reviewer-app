@@ -1,0 +1,491 @@
+# Medical Case Notes Review Application - Product Requirement Document
+
+## 1. Executive Summary
+
+### 1.1 Project Overview
+A NextJS web application that leverages OpenAI's capabilities to automatically review and score medical case notes against standardized clinical criteria. The application provides healthcare professionals and medical students with objective feedback on their clinical documentation quality.
+
+### 1.2 Project Scope
+- Web-based application for medical case note review
+- AI-powered scoring system based on 4 key clinical criteria
+- User authentication and case history management
+- Responsive design for desktop and mobile use
+
+## 2. Product Vision & Objectives
+
+### 2.1 Vision Statement
+To create an intelligent, user-friendly platform that helps healthcare professionals improve their clinical documentation skills through AI-powered assessment and feedback.
+
+### 2.2 Key Objectives
+- Provide standardized, objective evaluation of medical case notes
+- Offer detailed feedback for continuous improvement
+- Maintain secure storage of sensitive medical documentation
+- Deliver fast, reliable scoring results
+- Support educational and professional development use cases
+
+## 3. Target Users
+
+### 3.1 Primary Users
+- Medical students
+- Resident physicians
+- Healthcare professionals seeking documentation improvement
+- Medical educators and supervisors
+
+### 3.2 User Personas
+**Dr. Sarah Chen - Medical Resident**
+- Needs: Quick feedback on case note quality, improvement suggestions
+- Goals: Pass board exams, improve clinical documentation skills
+- Pain Points: Inconsistent feedback from supervisors, time constraints
+
+**Professor Mike Rodriguez - Medical Educator**
+- Needs: Tool to assess student documentation objectively
+- Goals: Standardize evaluation process, provide consistent feedback
+- Pain Points: Manual review is time-consuming, subjective scoring
+
+## 4. Functional Requirements
+
+### 4.1 Core Features
+
+#### 4.1.1 User Authentication
+- **User Registration**: Email-based account creation with password requirements
+- **User Login**: Secure login with session management
+- **Password Reset**: Email-based password recovery
+- **Profile Management**: Basic user profile with name, role, institution (optional)
+
+#### 4.1.2 Case Note Input & Processing
+- **Single Text Input Interface**: Large text area for complete clinical case entry
+- **Case Note Format**: User enters entire clinical case as continuous text including:
+  - Patient presentation and chief complaint
+  - History of present illness
+  - Past medical history, medications, allergies
+  - Physical examination findings
+  - Assessment and differential diagnosis
+  - Treatment plan and follow-up
+- **Input Requirements**: Minimum 200 characters, maximum 15,000 characters
+- **Text Processing**: OpenAI processes the complete case text to extract and evaluate all four criteria
+- **Real-time Character Count**: Display current character count and validation
+- **Auto-save Draft**: Prevent data loss during composition
+
+#### 4.1.3 Gemini AI-Powered Scoring System
+- **Google Gemini Integration**: Single API call to process complete clinical case text using free Gemini 1.5 Flash model
+- **Free Tier Benefits**: 1,500 requests per day, 15 requests per minute, completely free with no credit card required
+- **Comprehensive Analysis**: AI reads entire case text and identifies:
+  - History & Physical Exam components and quality
+  - Differential diagnosis reasoning and completeness
+  - Assessment and treatment plan appropriateness
+  - Follow-up planning and documentation
+- **Intelligent Scoring**: Gemini assigns scores (1-3) for each of the 4 criteria based on medical content analysis
+- **Detailed Feedback**: Generate specific, actionable feedback for each criterion with medical accuracy
+- **Total Score Calculation**: Automatic summation to 12-point scale
+- **Processing Time**: Target <15 seconds for complete analysis using optimized Flash model
+- **No Usage Costs**: Completely free for development and production use within daily limits
+
+#### 4.1.4 Results & Feedback
+- **Score Display**: Clear presentation of total and individual category scores
+- **Detailed Feedback**: AI-generated suggestions for improvement
+- **Score History**: Track improvement over time with visual charts
+- **Export Results**: Download results as PDF report
+
+#### 4.1.5 Case Management
+- **Save Cases**: Store case notes and results for future reference
+- **Case History**: View previously submitted cases with filters (date, score range)
+- **Case Comparison**: Compare scores across multiple submissions
+- **Delete Cases**: Remove cases with confirmation dialog
+
+### 4.2 Scoring Criteria Implementation
+
+#### 4.2.1 History & Physical Exam (3 points max)
+- **Excellent (3 points)**: Well-organized, accurate, relevant documentation
+- **Good (2 points)**: Minor details missing, adequate for assessment
+- **Poor (1 point)**: Key diagnostic information missing
+
+#### 4.2.2 Differential Diagnosis (3 points max)
+- **Excellent (3 points)**: Well-developed, prioritized, clinically reasoned
+- **Good (2 points)**: Lacks depth but includes main diagnoses
+- **Poor (1 point)**: Incomplete or incorrect differential
+
+#### 4.2.3 Assessment and Treatment Plan (3 points max)
+- **Excellent (3 points)**: Evidence-based, appropriate, comprehensive
+- **Good (2 points)**: Addresses chief complaint adequately
+- **Poor (1 point)**: Inappropriate or incomplete plan
+
+#### 4.2.4 Follow Up (3 points max)
+- **Excellent (3 points)**: Appropriate follow-up documented and scheduled
+- **Good (2 points)**: Follow-up documented but not scheduled
+- **Poor (1 point)**: No appropriate follow-up documented
+
+## 5. Technical Requirements
+
+### 5.1 Technology Stack
+- **Frontend**: NextJS 14+ with App Router
+- **Styling**: Tailwind CSS for responsive design
+- **Authentication**: NextAuth.js for secure user management
+- **AI Integration**: Google Gemini API (Free tier with 1,500 daily requests)
+- **Deployment**: Vercel for hosting and CI/CD
+- **Database**: PostgreSQL with Vercel Postgres for backend storage
+- **Development Environment**: Cursor IDE for AI-assisted development
+- **ORM**: Prisma for type-safe database operations
+
+### 5.2 Database Architecture with PostgreSQL
+
+#### 5.2.1 Database Setup
+**PostgreSQL with Vercel Postgres**
+- Production database: Vercel Postgres (managed PostgreSQL)
+- Development database: Local PostgreSQL or Docker container
+- ORM: Prisma for type-safe database operations
+- Migrations: Prisma migrate for schema versioning
+
+#### 5.2.2 Database Schema (Prisma)
+
+```prisma
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  role        String?
+  institution String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  cases       Case[]
+  
+  @@map("users")
+}
+
+model Case {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  title       String?
+  caseNotes   String   @map("case_notes") @db.Text
+  
+  // Scoring fields
+  totalScore           Int     @map("total_score")
+  historyPhysicalScore Int     @map("history_physical_score")
+  historyPhysicalFeedback String @map("history_physical_feedback") @db.Text
+  differentialScore    Int     @map("differential_score")
+  differentialFeedback String  @map("differential_feedback") @db.Text
+  assessmentPlanScore  Int     @map("assessment_plan_score")
+  assessmentPlanFeedback String @map("assessment_plan_feedback") @db.Text
+  followupScore        Int     @map("followup_score")
+  followupFeedback     String  @map("followup_feedback") @db.Text
+  
+  // AI metadata
+  aiModelUsed     String  @map("ai_model_used")
+  processingTime  Float   @map("processing_time")
+  tokenUsage      Json?   @map("token_usage")
+  
+  // Timestamps
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Indexes
+  @@index([userId])
+  @@index([createdAt])
+  @@map("cases")
+}
+```
+
+### 5.3 API Endpoints
+
+#### 5.3.1 Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `POST /api/auth/reset-password` - Password reset
+
+#### 5.3.2 Case Management
+- `GET /api/cases` - Get user's cases (paginated)
+- `POST /api/cases` - Submit new case for review
+- `GET /api/cases/:id` - Get specific case details
+- `DELETE /api/cases/:id` - Delete specific case
+- `GET /api/cases/stats` - Get user statistics
+
+#### 5.3.3 Gemini AI Review
+- `POST /api/review` - Submit case notes for Gemini AI analysis (free)
+- `GET /api/review/usage` - Check daily API usage against free tier limits
+- `GET /api/review/:id/status` - Check review status for async processing
+
+### 5.4 Performance Requirements
+- **Response Time**: Case review completion within 15 seconds using Gemini Flash
+- **Availability**: 99.5% uptime
+- **Scalability**: Support for 1000+ concurrent users within free tier limits
+- **Security**: HIPAA-compliant data handling practices
+- **Free Tier Management**: 1,500 requests per day, 15 requests per minute monitoring
+- **Cost Optimization**: $0 operational cost for AI processing within free limits
+
+## 6. User Interface Requirements
+
+### 6.1 Design Principles
+- **Clean and Professional**: Medical-grade interface design
+- **Accessibility**: WCAG 2.1 AA compliance
+- **Mobile Responsive**: Optimized for tablets and mobile devices
+- **Intuitive Navigation**: Clear information architecture
+
+### 6.2 Key Pages
+- **Landing Page**: Product overview and sign-up CTA
+- **Dashboard**: Case history, recent activity, quick stats
+- **Case Input**: Primary interface for submitting case notes
+- **Results Page**: Detailed scoring and feedback display
+- **Profile Settings**: User account management
+- **Help/FAQ**: Usage instructions and troubleshooting
+
+### 6.3 Visual Elements
+- **Color Scheme**: Professional medical blues and greens
+- **Typography**: Clean, readable fonts (Inter or similar)
+- **Icons**: Consistent icon library (Heroicons or Lucide)
+- **Loading States**: Progress indicators for AI processing
+- **Error Handling**: User-friendly error messages
+
+## 7. Security & Privacy Requirements
+
+### 7.1 Data Security
+- **Encryption**: All data encrypted in transit (HTTPS) and at rest
+- **Authentication**: Secure session management with JWT tokens
+- **API Security**: Rate limiting and request validation
+- **Input Sanitization**: Prevent XSS and injection attacks
+
+### 7.2 Privacy Considerations
+- **Data Anonymization**: Remove patient identifiers from case notes
+- **User Consent**: Clear privacy policy and terms of service
+- **Data Retention**: Configurable case note retention periods
+- **Export Controls**: Secure data export with user verification
+
+### 7.3 Compliance
+- **HIPAA Awareness**: Educational guidelines for handling PHI
+- **GDPR Compliance**: User data rights and deletion capabilities
+- **Audit Logging**: Track user actions and system events
+
+### 8.1 Development Environment & Tools
+**Cursor IDE Integration**:
+- **AI-Assisted Development**: Leverage Cursor's AI capabilities for rapid prototyping
+- **Code Generation**: Use AI suggestions for boilerplate code, API routes, and components
+- **Database Schema Design**: AI-assisted Prisma schema creation and migration
+- **Testing Support**: Generate test cases and mock data with AI assistance
+
+### 8.2 System Architecture
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      SYSTEM ARCHITECTURE                       │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────┐    ┌──────────────┐    ┌─────────────────┐    │
+│  │   NextJS    │    │   API Routes │    │   PostgreSQL    │    │
+│  │  Frontend   │◄──►│   (Server)   │◄──►│   (Vercel)      │    │
+│  │  (Cursor)   │    │              │    │                 │    │
+│  └─────────────┘    └──────┬───────┘    └─────────────────┘    │
+│                             │                                   │
+│                             ▼                                   │
+│                    ┌─────────────────┐                         │
+│                    │   Gemini API    │                         │
+│                    │ (Free - 1500/day)│                        │
+│                    │  Flash Model    │                         │
+│                    └─────────────────┘                         │
+│                                                                 │
+│  Data Flow:                                                     │
+│  1. User enters complete clinical case text                     │
+│  2. Frontend validates and sends to API                        │
+│  3. API processes text with Gemini AI for scoring (FREE)       │
+│  4. Results stored in PostgreSQL with $0 cost tracking         │
+│  5. Formatted results returned to user                         │
+│                                                                 │
+│  Free Tier Limits:                                             │
+│  • 1,500 requests per day                                      │
+│  • 15 requests per minute                                      │
+│  • No credit card required                                     │
+│  • Unlimited usage within limits                               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 8.3 PostgreSQL Backend Integration
+**Vercel Postgres Setup**:
+```bash
+# Environment Variables
+DATABASE_URL="postgresql://username:password@hostname:port/database"
+NEXTAUTH_SECRET="your-secret-key"
+GEMINI_API_KEY="your-gemini-api-key"  # Free from Google AI Studio
+
+# Prisma Commands
+npx prisma generate    # Generate client
+npx prisma db push     # Push schema to database
+npx prisma studio      # Database admin interface
+```
+
+### 8.4 Google Gemini Prompt Engineering for Medical Case Analysis
+
+**Gemini AI Client Setup**:
+```typescript
+// lib/gemini.ts
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+
+export const MODELS = {
+  FLASH: 'gemini-1.5-flash',        // Free tier - fast & efficient
+  FLASH_8B: 'gemini-1.5-flash-8b', // Free tier - ultra fast
+  PRO: 'gemini-1.5-pro',            // Free tier - limited requests
+} as const;
+
+export const getModel = (modelName = MODELS.FLASH) => {
+  return genAI.getGenerativeModel({ model: modelName });
+};
+```
+
+**Medical Analysis Prompt Structure**:
+```typescript
+const MEDICAL_CASE_ANALYSIS_PROMPT = `
+You are an expert medical educator tasked with evaluating clinical case documentation.
+Analyze the provided clinical case text and score it based on these 4 criteria:
+
+1. HISTORY & PHYSICAL EXAM (1-3 points):
+   - 3 points: Well-organized, accurate, relevant to complaint
+   - 2 points: Minor details missing but adequate for assessment
+   - 1 point: Key diagnostic information missing
+
+2. DIFFERENTIAL DIAGNOSIS (1-3 points):
+   - 3 points: Well-developed, prioritized, clinically reasoned
+   - 2 points: Lacks depth but includes main diagnoses
+   - 1 point: Incomplete or incorrect differential
+
+3. ASSESSMENT & TREATMENT PLAN (1-3 points):
+   - 3 points: Evidence-based, appropriate, comprehensive
+   - 2 points: Addresses chief complaint adequately
+   - 1 point: Inappropriate or incomplete plan
+
+4. FOLLOW-UP (1-3 points):
+   - 3 points: Appropriate follow-up documented and scheduled
+   - 2 points: Follow-up documented but not scheduled
+   - 1 point: No appropriate follow-up documented
+
+Return ONLY valid JSON in this exact format:
+{
+  "historyPhysical": {"score": X, "feedback": "specific feedback"},
+  "differential": {"score": X, "feedback": "specific feedback"},
+  "assessmentPlan": {"score": X, "feedback": "specific feedback"},
+  "followup": {"score": X, "feedback": "specific feedback"},
+  "totalScore": X,
+  "overallFeedback": "comprehensive summary"
+}
+`;
+
+// Usage example with free tier monitoring
+const analyzeCase = async (caseNotes: string) => {
+  const model = getModel(MODELS.FLASH); // Free tier model
+  
+  const result = await model.generateContent([
+    MEDICAL_CASE_ANALYSIS_PROMPT,
+    `Clinical case to analyze:\n${caseNotes}`
+  ]);
+  
+  return result.response.text();
+};
+```
+
+**Free Tier Usage Tracking**:
+```typescript
+// lib/usage-tracker.ts
+interface UsageData {
+  dailyCount: number;
+  lastReset: string;
+  minutelyCount: number;
+  lastMinuteReset: string;
+}
+
+export const checkUsageLimits = async (userId: string): Promise<boolean> => {
+  // Check against free tier limits:
+  // - 1,500 requests per day
+  // - 15 requests per minute
+  // Return true if within limits, false otherwise
+};
+```
+**Rationale**:
+- **ACID Compliance**: Ensures data integrity for medical information
+- **JSON Support**: Flexible storage for AI feedback and metadata
+- **Full-text Search**: Advanced search capabilities for case notes
+- **Scalability**: Handles growth from prototype to production
+- **Vercel Integration**: Seamless deployment with Vercel Postgres
+- **Backup & Recovery**: Robust disaster recovery options
+- **Performance**: Excellent query performance for complex medical data
+
+**Alternative Options**:
+- **MongoDB**: Good for flexible document storage but less structured
+- **SQLite**: Suitable for prototyping but limited scalability
+- **Supabase**: PostgreSQL-based with built-in authentication
+
+## 9. Success Metrics
+
+### 9.1 User Engagement
+- Monthly active users
+- Average cases submitted per user
+- User retention rate (30, 60, 90 days)
+- Session duration and page views
+
+### 9.2 System Performance
+- Average AI processing time
+- API response times
+- System uptime percentage
+- Error rates and resolution times
+
+### 9.3 Educational Impact
+- Score improvement trends over time
+- User satisfaction surveys
+- Feature adoption rates
+- Support ticket volume and resolution
+
+## 10. Future Enhancements
+
+### 10.1 Phase 2 Features
+- **Collaboration Tools**: Share cases with mentors/supervisors
+- **Advanced Analytics**: Detailed progress tracking and insights
+- **Custom Scoring**: Configurable evaluation criteria
+- **Integration APIs**: Connect with EMR systems and educational platforms
+
+### 10.2 Advanced AI Features
+- **Specialty-Specific Models**: Tailored evaluation for different medical specialties
+- **Learning Recommendations**: Personalized study suggestions
+- **Plagiarism Detection**: Identify copied or template-based notes
+- **Voice Input**: Speech-to-text for case note dictation
+
+### 10.3 Enterprise Features
+- **Multi-tenant Architecture**: Support for institutions and organizations
+- **Advanced Reporting**: Institutional dashboards and analytics
+- **White-label Options**: Branded versions for educational institutions
+- **API Access**: Third-party integration capabilities
+
+## 11. Risk Assessment
+
+### 11.1 Technical Risks
+- **OpenAI API Reliability**: Implement fallback mechanisms and caching
+- **Data Loss**: Regular backups and disaster recovery procedures
+- **Performance Issues**: Load testing and monitoring implementation
+- **Security Breaches**: Regular security audits and penetration testing
+
+### 11.2 Business Risks
+- **Regulatory Changes**: Stay updated on medical software regulations
+- **Competition**: Monitor market developments and feature differentiation
+- **User Adoption**: Implement user feedback loops and iterative improvements
+- **Cost Management**: Monitor API usage and implement usage limits
+
+### 11.3 Mitigation Strategies
+- Comprehensive testing and quality assurance processes
+- Regular security assessments and updates
+- User feedback collection and rapid iteration
+- Financial monitoring and cost optimization
+- Legal consultation for compliance requirements
+
+---
+
+*This PRD serves as a living document and should be updated as requirements evolve and new insights are gained during development.*

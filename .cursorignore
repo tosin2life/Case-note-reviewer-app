@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.next/
+out/
+dist/
+
+# Generated files
+lib/generated/
+*.d.ts
+*.js.map
+tsconfig.tsbuildinfo
+
+# Database
+prisma/migrations/
+*.db
+*.sqlite
+
+# Logs and temp files
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Build artifacts
+build/
+coverage/

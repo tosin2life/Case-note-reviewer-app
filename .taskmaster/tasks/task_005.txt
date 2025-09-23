@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: Case Input Interface
+# Status: pending
+# Dependencies: 3
+# Priority: high
+# Description: Create the main interface for users to input medical case notes
+# Details:
+Build a large text area for case note input, implement character counting (200-15,000 chars), add auto-save functionality, and create input validation.
+
+# Test Strategy:
+Test text input, character limits, auto-save, and validation.

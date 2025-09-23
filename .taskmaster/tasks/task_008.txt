@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: User Dashboard and Analytics
+# Status: pending
+# Dependencies: 7
+# Priority: medium
+# Description: Create user dashboard with progress tracking and statistics
+# Details:
+Build dashboard showing recent cases, score trends over time, improvement analytics, and quick access to common actions.
+
+# Test Strategy:
+Test dashboard functionality with multiple cases and verify analytics accuracy.

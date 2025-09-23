@@ -1,26 +1,114 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --border: #e5e7eb;
+  --input: #ffffff;
+  --ring: #0ea5e9;
+  --muted: #f9fafb;
+  --muted-foreground: #6b7280;
+  --accent: #f0f9ff;
+  --accent-foreground: #0c4a6e;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card: #1a1a1a;
+    --card-foreground: #ededed;
+    --border: #374151;
+    --input: #1a1a1a;
+    --ring: #38bdf8;
+    --muted: #1f2937;
+    --muted-foreground: #9ca3af;
+    --accent: #1e3a8a;
+    --accent-foreground: #f0f9ff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --success: #059669;
+    --success-foreground: #ffffff;
+    --warning: #f59e0b;
+    --warning-foreground: #ffffff;
   }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  border-color: var(--border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+/* Medical application specific styles */
+.medical-card {
+  @apply bg-card border border-border rounded-lg shadow-lg p-6;
+}
+
+.medical-input {
+  @apply w-full px-4 py-3 border border-border rounded-lg bg-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
+}
+
+.medical-button-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+.medical-button-secondary {
+  @apply bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+}
+
+.medical-alert-success {
+  @apply bg-green-100 text-green-800 p-4 rounded-lg border border-green-200;
+}
+
+.medical-alert-warning {
+  @apply bg-yellow-100 text-yellow-800 p-4 rounded-lg border border-yellow-200;
+}
+
+.medical-alert-error {
+  @apply bg-red-100 text-red-800 p-4 rounded-lg border border-red-200;
+}
+
+/* Loading animations for medical data processing */
+.medical-loading {
+  @apply animate-pulse-slow;
+}
+
+.medical-spinner {
+  @apply animate-spin rounded-full border-2 border-blue-200 border-t-blue-600;
 }
