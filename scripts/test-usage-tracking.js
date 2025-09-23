@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Test script for Usage Tracking and Rate Limiting
  * Run with: node scripts/test-usage-tracking.js

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { signIn, getSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { Eye, EyeOff, Mail, Lock, GraduationCap } from 'lucide-react'
 
@@ -15,7 +16,7 @@ interface FormErrors {
   [key: string]: string
 }
 
-export default function SignInPage() {
+function SignInForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [showPassword, setShowPassword] = useState(false)
@@ -220,7 +221,7 @@ export default function SignInPage() {
 
           <div className='text-center'>
             <p className='text-sm text-gray-600'>
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link
                 href='/auth/signup'
                 className='font-medium text-blue-600 hover:text-blue-500'
@@ -232,5 +233,13 @@ export default function SignInPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense>
+      <SignInForm />
+    </Suspense>
   )
 }

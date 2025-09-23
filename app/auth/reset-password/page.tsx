@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect, useCallback, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Eye, EyeOff, Lock, GraduationCap, ArrowLeft } from 'lucide-react'
 
@@ -14,8 +14,8 @@ interface FormErrors {
   [key: string]: string
 }
 
-export default function ResetPasswordPage() {
-  const router = useRouter()
+function ResetPasswordForm() {
+  // router is unused
   const searchParams = useSearchParams()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -31,18 +31,11 @@ export default function ResetPasswordPage() {
 
   const token = searchParams.get('token')
 
-  useEffect(() => {
-    if (token) {
-      // Verify token is valid
-      verifyToken()
-    } else {
-      setIsValidToken(false)
-    }
-  }, [token])
-
-  const verifyToken = async () => {
+  const verifyToken = useCallback(async () => {
     try {
-      const response = await fetch(`/api/auth/verify-reset-token?token=${token}`)
+      const response = await fetch(
+        `/api/auth/verify-reset-token?token=${token}`
+      )
       if (response.ok) {
         setIsValidToken(true)
       } else {
@@ -52,7 +45,16 @@ export default function ResetPasswordPage() {
       console.error('Token verification error:', error)
       setIsValidToken(false)
     }
-  }
+  }, [token])
+
+  useEffect(() => {
+    if (token) {
+      // Verify token is valid
+      verifyToken()
+    } else {
+      setIsValidToken(false)
+    }
+  }, [token, verifyToken])
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
@@ -168,8 +170,8 @@ export default function ResetPasswordPage() {
               Password reset successful
             </h2>
             <p className='mt-2 text-center text-sm text-gray-600'>
-              Your password has been successfully reset. You can now sign in with
-              your new password.
+              Your password has been successfully reset. You can now sign in
+              with your new password.
             </p>
             <div className='mt-6'>
               <Link
@@ -267,7 +269,9 @@ export default function ResetPasswordPage() {
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   className={`appearance-none relative block w-full pl-10 pr-10 py-2 border ${
-                    errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
+                    errors.confirmPassword
+                      ? 'border-red-300'
+                      : 'border-gray-300'
                   } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm`}
                   placeholder='Confirm your new password'
                 />
@@ -313,5 +317,13 @@ export default function ResetPasswordPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense>
+      <ResetPasswordForm />
+    </Suspense>
   )
 }

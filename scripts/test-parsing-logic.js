@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Test script for AI Response Parsing and Scoring Logic
  * Run with: node scripts/test-parsing-logic.js

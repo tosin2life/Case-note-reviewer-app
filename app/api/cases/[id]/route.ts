@@ -3,7 +3,10 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-export async function GET(_request: Request, { params }: any) {
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { id } = await params
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) {
@@ -47,7 +50,10 @@ export async function GET(_request: Request, { params }: any) {
   }
 }
 
-export async function DELETE(_request: Request, { params }: any) {
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const { id } = await params
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) {

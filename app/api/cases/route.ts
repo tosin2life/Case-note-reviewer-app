@@ -42,7 +42,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Expect each criterion object to have { score: number, feedback: string }
-    const validateCriterion = (c: any, name: string) => {
+    const validateCriterion = (
+      c: { score: number; feedback: string } | undefined,
+      name: string
+    ) => {
       if (!c || typeof c.score !== 'number' || typeof c.feedback !== 'string') {
         throw new Error(
           `${name} must include numeric score and string feedback`
@@ -106,7 +109,11 @@ export async function GET(request: NextRequest) {
   const minScore = searchParams.get('minScore')
   const maxScore = searchParams.get('maxScore')
 
-  const where: any = { userId: session.user.id }
+  const where: {
+    userId: string
+    createdAt?: { gte?: Date; lte?: Date }
+    totalScore?: { gte?: number; lte?: number }
+  } = { userId: session.user.id }
   if (startDate || endDate) {
     where.createdAt = {}
     if (startDate) where.createdAt.gte = new Date(startDate)

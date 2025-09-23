@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Comprehensive Integration Test for Medical Case Analysis Pipeline
  * Tests the entire flow from case input to structured output

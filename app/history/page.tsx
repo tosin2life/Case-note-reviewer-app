@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -12,7 +12,7 @@ interface CaseListItem {
   createdAt: string
 }
 
-export default function HistoryPage() {
+function HistoryInner() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -202,5 +202,13 @@ export default function HistoryPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function HistoryPage() {
+  return (
+    <Suspense>
+      <HistoryInner />
+    </Suspense>
   )
 }
