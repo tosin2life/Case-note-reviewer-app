@@ -63,3 +63,5 @@ node_modules/
 # tasks/ 
 
 /lib/generated/prisma
+
+.vercel
