@@ -35,11 +35,11 @@ const config: Config = {
           900: '#14532d',
         },
         medical: {
-          red: '#dc2626',    // For errors, critical alerts
-          amber: '#f59e0b',  // For warnings
-          green: '#059669',  // For success, healthy status
-          blue: '#2563eb',   // For information, links
-          gray: '#6b7280',   // For neutral information
+          red: '#dc2626', // For errors, critical alerts
+          amber: '#f59e0b', // For warnings
+          green: '#059669', // For success, healthy status
+          blue: '#2563eb', // For information, links
+          gray: '#6b7280', // For neutral information
         },
         background: 'var(--background)',
         foreground: 'var(--foreground)',
@@ -57,8 +57,10 @@ const config: Config = {
         'bounce-gentle': 'bounce 2s infinite',
       },
       boxShadow: {
-        'medical': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'medical-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        medical:
+          '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'medical-lg':
+          '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       },
     },
   },

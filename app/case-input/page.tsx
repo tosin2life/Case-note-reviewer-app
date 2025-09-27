@@ -3,8 +3,10 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState, useCallback } from 'react'
-import { FileText, Save, ArrowLeft } from 'lucide-react'
+import { FileText, Save, ArrowLeft, X } from 'lucide-react'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
+import { FullPageSpinner, ButtonSpinner } from '@/components/ui/spinner'
 
 // Character limits
 const MIN_CHARS = 200
@@ -135,17 +137,18 @@ export default function CaseInputPage() {
     return () => clearTimeout(timeoutId)
   }, [saveToLocalStorage])
 
-  // Load saved data on component mount
+  // Clear any saved data when component mounts (fresh start)
   useEffect(() => {
-    const savedNotes = localStorage.getItem('medical-case-notes')
-    const savedTimestamp = localStorage.getItem('medical-case-notes-timestamp')
+    // Clear localStorage to ensure fresh start
+    localStorage.removeItem('medical-case-notes')
+    localStorage.removeItem('medical-case-notes-timestamp')
 
-    if (savedNotes) {
-      setCaseNotes(savedNotes)
-      if (savedTimestamp) {
-        setLastSaved(new Date(savedTimestamp))
-      }
-    }
+    // Reset state to ensure clean slate
+    setCaseNotes('')
+    setHasBlurred(false)
+    setValidationErrors([])
+    setAutoSaveStatus('idle')
+    setLastSaved(null)
   }, [])
 
   // Auto-save effect
@@ -175,6 +178,18 @@ export default function CaseInputPage() {
     // setValidationErrors([])
   }
 
+  const handleClear = () => {
+    setCaseNotes('')
+    setHasBlurred(false)
+    setValidationErrors([])
+    setAutoSaveStatus('idle')
+    setLastSaved(null)
+    // Clear localStorage as well
+    localStorage.removeItem('medical-case-notes')
+    localStorage.removeItem('medical-case-notes-timestamp')
+    toast.success('Case notes cleared')
+  }
+
   useEffect(() => {
     if (status === 'loading') return // Still loading
     if (!session) {
@@ -183,11 +198,7 @@ export default function CaseInputPage() {
   }, [session, status, router])
 
   if (status === 'loading') {
-    return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600'></div>
-      </div>
-    )
+    return <FullPageSpinner variant='medical' />
   }
 
   if (!session) {
@@ -199,7 +210,7 @@ export default function CaseInputPage() {
 
     // Validate input before submission
     if (!validateInput()) {
-      alert('Please fix the validation errors before submitting.')
+      toast.error('Please fix the validation errors before submitting.')
       return
     }
 
@@ -236,11 +247,11 @@ export default function CaseInputPage() {
         // Handle API errors
         const errorMessage =
           data.message || 'Analysis failed. Please try again.'
-        alert(`Analysis Error: ${errorMessage}`)
+        toast.error(`Analysis Error: ${errorMessage}`)
       }
     } catch (error) {
       console.error('Error submitting case:', error)
-      alert('Network error. Please check your connection and try again.')
+      toast.error('Network error. Please check your connection and try again.')
     } finally {
       setIsLoading(false)
     }
@@ -332,7 +343,7 @@ export default function CaseInputPage() {
                       <div className='flex items-center space-x-2'>
                         {autoSaveStatus === 'saving' && (
                           <>
-                            <div className='animate-spin rounded-full h-3 w-3 border-b border-blue-600'></div>
+                            <ButtonSpinner className='h-3 w-3' />
                             <span className='text-xs text-blue-600'>
                               Saving...
                             </span>
@@ -381,6 +392,16 @@ export default function CaseInputPage() {
               </div>
 
               <div className='mt-6 flex flex-col sm:flex-row sm:justify-end gap-3'>
+                {caseNotes.length > 0 && (
+                  <button
+                    type='button'
+                    onClick={handleClear}
+                    className='w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200'
+                  >
+                    <X className='h-4 w-4 mr-2' />
+                    Clear
+                  </button>
+                )}
                 <button
                   type='submit'
                   disabled={
@@ -392,7 +413,7 @@ export default function CaseInputPage() {
                 >
                   {isLoading ? (
                     <>
-                      <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2'></div>
+                      <ButtonSpinner className='border-white' />
                       Analyzing...
                     </>
                   ) : (

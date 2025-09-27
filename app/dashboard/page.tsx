@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { GraduationCap, Building, LogOut, User, FileText } from 'lucide-react'
+import { FullPageSpinner } from '@/components/ui/spinner'
+import Spinner from '@/components/ui/spinner'
 
 export default function DashboardPage() {
   const { data: session, status } = useSession()
@@ -53,11 +55,7 @@ export default function DashboardPage() {
   }, [status])
 
   if (status === 'loading') {
-    return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600'></div>
-      </div>
-    )
+    return <FullPageSpinner variant='medical' />
   }
 
   if (!session) {
@@ -180,7 +178,8 @@ export default function DashboardPage() {
                 </Link>
               </div>
               {loadingCases ? (
-                <div className='text-sm text-gray-500'>
+                <div className='flex items-center text-sm text-gray-500'>
+                  <Spinner size='sm' className='mr-2' />
                   Loading recent cases…
                 </div>
               ) : recentCases.length === 0 ? (

@@ -2,7 +2,7 @@
   "master": {
     "tasks": [
       {
-        "id": 1,
+        "id": "1",
         "title": "Project Setup and Initialization",
         "description": "Set up the Next.js project structure and basic configuration",
         "status": "done",
@@ -18,7 +18,8 @@
             "dependencies": [],
             "details": "Execute `npx create-next-app@latest my-casenote-reviewer --typescript --eslint --tailwind --src-dir --app` (or similar command based on desired project structure, e.g., `pages` directory if not using `app` router yet). Verify the basic project structure, `package.json`, and `tsconfig.json` are correctly generated.",
             "status": "done",
-            "testStrategy": "Run `npm install` or `yarn install` followed by `npm run dev` or `yarn dev`. Access `http://localhost:3000` to confirm the default Next.js welcome page loads without errors."
+            "testStrategy": "Run `npm install` or `yarn install` followed by `npm run dev` or `yarn dev`. Access `http://localhost:3000` to confirm the default Next.js welcome page loads without errors.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -29,7 +30,8 @@
             ],
             "details": "If not already included in the `create-next-app` command, install Tailwind CSS, PostCSS, and Autoprefixer: `npm install -D tailwindcss postcss autoprefixer`. Initialize Tailwind CSS: `npx tailwindcss init -p`. Configure `tailwind.config.js` to scan relevant files (e.g., `app/**/*.{js,ts,jsx,tsx,mdx}`, `pages/**/*.{js,ts,jsx,tsx,mdx}`, `components/**/*.{js,ts,jsx,tsx,mdx}`). Add Tailwind directives to `src/app/globals.css` (or `src/styles/globals.css` if using `pages` router).",
             "status": "done",
-            "testStrategy": "Apply a simple Tailwind class (e.g., `text-red-500`) to an element in `src/app/page.tsx` (or `src/pages/index.tsx`) and verify the styling is applied correctly in the browser."
+            "testStrategy": "Apply a simple Tailwind class (e.g., `text-red-500`) to an element in `src/app/page.tsx` (or `src/pages/index.tsx`) and verify the styling is applied correctly in the browser.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -40,7 +42,8 @@
             ],
             "details": "Identify and install common dependencies for a medical case review application. This might include: `react-icons` for UI icons, `axios` or `fetch` polyfills for API requests, a date utility library like `date-fns` or `moment` (if not using native Date API), and potentially a UI component library if not relying solely on Tailwind. For now, focus on general utilities. Example: `npm install react-icons axios date-fns`.",
             "status": "done",
-            "testStrategy": "Verify that all installed packages are listed in `package.json` and that `npm install` (or `yarn install`) completes without errors. Optionally, import and use a component/function from one of the new libraries in a temporary file to confirm it's accessible."
+            "testStrategy": "Verify that all installed packages are listed in `package.json` and that `npm install` (or `yarn install`) completes without errors. Optionally, import and use a component/function from one of the new libraries in a temporary file to confirm it's accessible.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -51,7 +54,8 @@
             ],
             "details": "Ensure ESLint is configured for Next.js and TypeScript (usually handled by `create-next-app`). Install Prettier and its ESLint integration: `npm install -D prettier eslint-config-prettier eslint-plugin-prettier`. Create or update `.eslintrc.json` to extend `prettier` and `plugin:prettier/recommended`. Create `.prettierrc.json` with desired formatting rules (e.g., `semi: false`, `singleQuote: true`, `tabWidth: 2`). Add `lint` and `format` scripts to `package.json` (e.g., `\"lint\": \"next lint\", \"format\": \"prettier --write .\"`).",
             "status": "done",
-            "testStrategy": "Run `npm run lint` and `npm run format`. Introduce a deliberate linting error (e.g., unused variable) and a formatting error (e.g., missing semicolon) to verify ESLint catches the error and Prettier fixes the formatting."
+            "testStrategy": "Run `npm run lint` and `npm run format`. Introduce a deliberate linting error (e.g., unused variable) and a formatting error (e.g., missing semicolon) to verify ESLint catches the error and Prettier fixes the formatting.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -65,12 +69,13 @@
             ],
             "details": "Ensure `package.json` contains standard Next.js scripts: `dev`, `build`, `start`. Test each script. Verify `next.config.js` is present and can be extended for future configurations. Document initial environment variables needed (e.g., `NEXT_PUBLIC_APP_NAME`) and ensure `.env.local` is set up correctly and ignored by Git. Check that the `.gitignore` file is properly configured to exclude sensitive files and build artifacts.",
             "status": "done",
-            "testStrategy": "Run `npm run dev` and confirm the application is accessible. Run `npm run build` and verify the build completes successfully without errors. Then run `npm run start` to ensure the production build serves correctly. Check `.gitignore` to ensure `node_modules`, `.next`, and `.env.local` are listed."
+            "testStrategy": "Run `npm run dev` and confirm the application is accessible. Run `npm run build` and verify the build completes successfully without errors. Then run `npm run start` to ensure the production build serves correctly. Check `.gitignore` to ensure `node_modules`, `.next`, and `.env.local` are listed.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 2,
+        "id": "2",
         "title": "Database Setup with PostgreSQL and Prisma",
         "description": "Set up PostgreSQL database with Prisma ORM and create initial schema",
         "status": "done",
@@ -88,7 +93,8 @@
             "dependencies": [],
             "details": "Run `npm install prisma @prisma/client` or `yarn add prisma @prisma/client`. Ensure these are added to `package.json`.",
             "status": "done",
-            "testStrategy": "Verify `prisma` and `@prisma/client` are listed in `package.json` dependencies."
+            "testStrategy": "Verify `prisma` and `@prisma/client` are listed in `package.json` dependencies.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -99,7 +105,8 @@
             ],
             "details": "Run `npx prisma init` to create the `prisma` directory and `schema.prisma`. Update `schema.prisma` to set `provider = \"postgresql\"`. Add `DATABASE_URL=\"postgresql://user:password@localhost:5432/mydatabase?schema=public\"` to `.env` for local development. Ensure a local PostgreSQL instance is running or provide instructions for setting one up (e.g., via Docker).",
             "status": "done",
-            "testStrategy": "Verify `prisma` directory and `schema.prisma` exist. Confirm `DATABASE_URL` is correctly set in `.env` and `provider` is `postgresql` in `schema.prisma`."
+            "testStrategy": "Verify `prisma` directory and `schema.prisma` exist. Confirm `DATABASE_URL` is correctly set in `.env` and `provider` is `postgresql` in `schema.prisma`.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -110,7 +117,8 @@
             ],
             "details": "Add the `User` model with fields like `id` (UUID), `email` (unique), `name`, `createdAt`, `updatedAt`. Add the `Case` model with fields like `id` (UUID), `title`, `content`, `userId` (foreign key), `createdAt`, `updatedAt`. Establish a one-to-many relationship between `User` and `Case`.",
             "status": "done",
-            "testStrategy": "Review `schema.prisma` to ensure `User` and `Case` models are correctly defined with appropriate fields and the relationship is established."
+            "testStrategy": "Review `schema.prisma` to ensure `User` and `Case` models are correctly defined with appropriate fields and the relationship is established.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -121,12 +129,13 @@
             ],
             "details": "Run `npx prisma migrate dev --name init_user_case_models` to generate the migration files. Then, apply the migration to the local database. Verify the tables are created in the local PostgreSQL database using a database client (e.g., DBeaver, pgAdmin).",
             "status": "done",
-            "testStrategy": "Confirm a new migration file is created in `prisma/migrations`. Connect to the local PostgreSQL database and verify that `User` and `Case` tables exist with the correct columns."
+            "testStrategy": "Confirm a new migration file is created in `prisma/migrations`. Connect to the local PostgreSQL database and verify that `User` and `Case` tables exist with the correct columns.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 3,
+        "id": "3",
         "title": "User Authentication System",
         "description": "Implement user registration, login, and session management with NextAuth.js",
         "status": "done",
@@ -144,7 +153,8 @@
             "dependencies": [],
             "details": "Install `next-auth`. Create `pages/api/auth/[...nextauth].ts` to configure `CredentialsProvider` for email/password authentication. Integrate a database adapter (e.g., Mongoose or Prisma) to store user data, defining the `User` schema if it doesn't exist (e.g., `src/models/User.ts`). Wrap `pages/_app.tsx` with `SessionProvider` and add necessary environment variables (`NEXTAUTH_SECRET`, `DATABASE_URL`).\n<info added on 2025-09-22T23:06:08.307Z>\nThe user registration page should be implemented at `/auth/signup`, as configured in `lib/auth.ts`. The registration form needs to collect `email`, `password`, `role`, and `institution`. A dedicated API endpoint (e.g., `app/api/register/route.ts`) should be created to handle registration requests. This endpoint will utilize Prisma to create a new `User` record, ensuring the password is hashed using `bcryptjs` (consistent with `lib/auth.ts`). The `User` model in `prisma/schema.prisma` already defines fields for `password`, `role`, and `institution`. Upon successful registration, the user should be redirected to the sign-in page (`/auth/signin`).\n</info added on 2025-09-22T23:06:08.307Z>",
             "status": "done",
-            "testStrategy": "Verify `SessionProvider` is active in `_app.tsx`. Confirm database connection and `User` schema creation/migration. Ensure NextAuth.js API routes are accessible."
+            "testStrategy": "Verify `SessionProvider` is active in `_app.tsx`. Confirm database connection and `User` schema creation/migration. Ensure NextAuth.js API routes are accessible.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -155,7 +165,8 @@
             ],
             "details": "Create a new page `pages/register.tsx` with a form for user email, password, and password confirmation. Implement client-side validation for input fields. Create an API route (e.g., `pages/api/auth/register.ts`) to handle new user creation, hashing passwords (e.g., with `bcryptjs`) before saving to the database via the configured NextAuth.js adapter.\n<info added on 2025-09-22T23:15:28.470Z>\nThe registration UI is implemented at `app/auth/signup/page.tsx` and the API endpoint at `app/api/register/route.ts`, indicating a shift to the Next.js App Router. The registration form now includes fields for Name, Professional Medical Role (with options: Medical Student, Resident, Attending Physician, NP, PA, Other), and Institution, in addition to Email, Password, and Confirm Password. Client-side validation is real-time, and a password visibility toggle is included. The UI is responsive with Tailwind CSS, features loading states, user feedback, comprehensive error display, and a link to the sign-in page. The API endpoint handles POST requests, uses `zod` for robust input validation, hashes passwords with `bcryptjs` (12 rounds), performs duplicate email checking, and returns user data (excluding password) on success. Input sanitization is also implemented. The `zod` dependency has been added. The registration flow is fully functional and ready for testing.\n</info added on 2025-09-22T23:15:28.470Z>",
             "status": "done",
-            "testStrategy": "Successfully register a new user through the UI. Verify password hashing and check for the new user entry in the database. Test invalid inputs (e.g., missing fields, weak password, email already exists)."
+            "testStrategy": "Successfully register a new user through the UI. Verify password hashing and check for the new user entry in the database. Test invalid inputs (e.g., missing fields, weak password, email already exists).",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -166,7 +177,8 @@
             ],
             "details": "Create a new page `pages/login.tsx` with a form for user email and password. Implement client-side validation. Use `signIn('credentials', { email, password, redirect: false })` from `next-auth/react` to authenticate users. Handle successful login by redirecting to a protected page (e.g., `/dashboard`) and display appropriate error messages for failed login attempts.",
             "status": "done",
-            "testStrategy": "Successfully log in with registered credentials. Test login with incorrect credentials (email/password). Verify redirection after successful login and error message display for failures."
+            "testStrategy": "Successfully log in with registered credentials. Test login with incorrect credentials (email/password). Verify redirection after successful login and error message display for failures.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -179,7 +191,8 @@
             ],
             "details": "Update the application layout (e.g., `components/Header.tsx` or `components/Layout.tsx`) to display user's session status (e.g., 'Welcome, [username]' or 'Login/Register' links). Implement a logout button using `signOut()` from `next-auth/react`. Protect a sample page (e.g., `pages/dashboard.tsx`) by using `useSession` with `required: true` or `getServerSession` to redirect unauthenticated users to the login page.",
             "status": "done",
-            "testStrategy": "Verify user information is displayed correctly when logged in. Confirm logout functionality. Attempt to access a protected page as a logged-in user (should succeed) and as a logged-out user (should redirect to login)."
+            "testStrategy": "Verify user information is displayed correctly when logged in. Confirm logout functionality. Attempt to access a protected page as a logged-in user (should succeed) and as a logged-out user (should redirect to login).",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -190,12 +203,13 @@
             ],
             "details": "Create a 'Forgot Password' page (`pages/forgot-password.tsx`) where users can submit their email. Implement an API endpoint (e.g., `pages/api/auth/forgot-password.ts`) to generate a unique, time-limited token, save it to the user record in the database, and send a password reset link to the user's email. Create a 'Reset Password' page (`pages/reset-password/[token].tsx`) that accepts the token from the URL and a new password. Implement an API endpoint (e.g., `pages/api/auth/reset-password.ts`) to verify the token, update the user's password (hashed), and invalidate the token.",
             "status": "done",
-            "testStrategy": "Request a password reset email. Verify token generation and storage in the database. Use the reset link to successfully change a password. Test with an expired or invalid token to ensure proper error handling. (Note: Email sending might be mocked or require integration with an email service)."
+            "testStrategy": "Request a password reset email. Verify token generation and storage in the database. Use the reset link to successfully change a password. Test with an expired or invalid token to ensure proper error handling. (Note: Email sending might be mocked or require integration with an email service).",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 4,
+        "id": "4",
         "title": "Google Gemini AI Integration",
         "description": "Integrate Google Gemini API for medical case analysis and scoring",
         "status": "done",
@@ -213,7 +227,8 @@
             "dependencies": [],
             "details": "Initialize the Gemini API client library. Store API keys securely using environment variables (e.g., .env files for local, secure secrets management for deployment). Implement basic error handling for API connection issues.\n<info added on 2025-09-23T00:11:19.075Z>\nDevelop initial prompt templates for medical case analysis, focusing on the four key criteria: History & Physical, Differential Diagnosis, Assessment & Treatment, and Follow-up. Design these prompts to guide the Gemini AI in extracting relevant information and providing structured output, ideally in a parseable format (e.g., JSON) suitable for subsequent scoring. Store these prompt templates in a dedicated, easily manageable location, such as a new `lib/prompts/` directory. Extend the `GeminiAPIClient` in `lib/gemini.ts` with new methods to load and execute these specific analysis prompts, and to parse the AI's structured responses. Establish a process for iteratively testing and refining prompts to improve the accuracy and relevance of AI outputs, leveraging the existing `PromptParsingError` from `lib/gemini.ts` for validating the structure of the AI's responses.\n</info added on 2025-09-23T00:11:19.075Z>",
             "status": "done",
-            "testStrategy": "Verify successful connection to the Gemini API using a simple test call (e.g., listing available models). Confirm API key is not hardcoded and is loaded securely."
+            "testStrategy": "Verify successful connection to the Gemini API using a simple test call (e.g., listing available models). Confirm API key is not hardcoded and is loaded securely.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -224,7 +239,8 @@
             ],
             "details": "Create initial prompt templates for each of the 4 criteria. Experiment with few-shot examples and specific instructions to ensure the AI understands the medical context and desired output format (e.g., JSON structure for scoring). Focus on clarity, conciseness, and medical accuracy.\n<info added on 2025-09-23T00:41:22.663Z>\nProgress Update:\nThe initial prompt templates have been developed and refined to fully comply with the Product Requirements Document (PRD). Key updates include:\n- **Prompt Content**: All prompts in `lib/prompts/medical-analysis.ts` have been updated to use the exact text specified in `medical_case_review_prd.md`.\n- **Scoring Scale**: The scoring scale for each criterion has been adjusted from 0-5 to 1-3, as per PRD specifications.\n- **AI Response Format**: The expected JSON output format has been updated to match the PRD. This includes using specific criterion names (`historyPhysical`, `differential`, `assessmentPlan`, `followup` in lowercase) and updated overall feedback fields (`totalScore`, `overallFeedback`).\n- **Implementation Details**:\n    - `lib/prompts/medical-analysis.ts`: Contains the updated prompt texts and reflects the 1-3 scoring system.\n    - `lib/gemini.ts`: Functions within this file have been modified to correctly handle the new response format and criterion names from the AI.\n    - `app/api/analyze-case/route.ts`: The API endpoint has been updated to process and respond with the new JSON structure.\n    - `scripts/test-medical-analysis.js`: The test script has been adapted to validate the new 1-3 scoring system and response format.\nThe system now fully complies with the PRD regarding prompt text, scoring scale, JSON response format, criterion naming, and total score calculation (max 12 points). The prompts are ready for testing with the new scoring system.\n</info added on 2025-09-23T00:41:22.663Z>",
             "status": "done",
-            "testStrategy": "Test prompts with a diverse set of sample medical case notes. Manually review AI responses for accuracy, completeness, and adherence to the desired output format for each criterion."
+            "testStrategy": "Test prompts with a diverse set of sample medical case notes. Manually review AI responses for accuracy, completeness, and adherence to the desired output format for each criterion.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -235,7 +251,8 @@
             ],
             "details": "Create functions to parse the AI's JSON or structured text output. Implement scoring algorithms based on the AI's analysis for each criterion. Define rules for assigning scores (e.g., 0-5 scale) and generating specific feedback messages. Ensure robust error handling for unexpected AI output formats.\n<info added on 2025-09-23T00:44:01.143Z>\n**Implementation Status:**\nThe parsing and scoring logic is fully implemented and tested:\n\n**Files Implemented:**\n1. `lib/gemini.ts` - Contains the core parsing logic:\n   - `analyzeCriterion()` - Parses single criterion responses with validation\n   - `analyzeMedicalCase()` - Parses comprehensive analysis responses\n   - JSON parsing with error handling using `PromptParsingError`\n   - Response structure validation for PRD format\n\n2. `scripts/test-parsing-logic.js` - Comprehensive test suite:\n   - Valid JSON response parsing tests\n   - Invalid response handling validation\n   - Score calculation verification (1-3 scale, total 4-12)\n   - Edge case handling (empty feedback, null values, long text)\n   - Mock API response simulation\n\n**Key Features:**\n- ✅ JSON parsing with robust error handling\n- ✅ Score validation (1-3 range for each criterion)\n- ✅ Total score calculation (4-12 points max)\n- ✅ Response structure validation (PRD format compliance)\n- ✅ Custom error types (`PromptParsingError`, `GeminiAPIError`)\n- ✅ Edge case handling for malformed responses\n- ✅ Comprehensive test coverage\n\n**Test Results:**\nAll parsing and scoring logic tests passed successfully, confirming the system can handle various response formats and edge cases robustly.\n\n**Ready for:** Integration with usage tracking and rate limiting (subtask 4.4)\n</info added on 2025-09-23T00:44:01.143Z>",
             "status": "done",
-            "testStrategy": "Use mock AI responses (based on expected prompt outputs) to test the parsing and scoring logic. Verify that scores are calculated correctly and feedback is generated as expected for various scenarios (good, bad, incomplete responses)."
+            "testStrategy": "Use mock AI responses (based on expected prompt outputs) to test the parsing and scoring logic. Verify that scores are calculated correctly and feedback is generated as expected for various scenarios (good, bad, incomplete responses).",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -246,7 +263,8 @@
             ],
             "details": "Set up a system to count API calls or token usage. Implement a rate-limiting strategy (e.g., token bucket, leaky bucket) to control the frequency of API requests. Add alerts or logging for approaching/exceeding limits.\n<info added on 2025-09-23T00:48:02.976Z>\n**Completion Update:**\nThe usage tracking and rate limiting system has been fully implemented and tested.\n\n**Key Implementations:**\n- **Core Logic (`lib/usage-tracker.ts`):** Developed an advanced usage tracking system with persistent storage (in-memory, production-ready for Redis/DB), multi-user support, and daily/minute-based rate limiting (1500/day, 15/minute for Gemini free tier). Includes usage statistics, monitoring, data clearing, and simulation capabilities.\n- **API Endpoint (`app/api/usage/route.ts`):** Created an API endpoint for retrieving usage statistics (GET) and simulating/clearing usage data (POST), supporting multi-user scenarios and rate limit status checks.\n- **Gemini Integration (`lib/gemini.ts`):** Integrated advanced rate limiting into `analyzeCriterion()` and `analyzeMedicalCase()` functions, incorporating automatic usage data updates with token counting and providing enhanced error messages with remaining request counts. A dual rate limiting system (legacy + advanced) is in place.\n- **Testing (`scripts/test-usage-tracking.js`):** A comprehensive test suite was developed to validate initial usage stats, request simulation, rate limiting, multi-user scenarios, data clearing, and API endpoint functionality.\n\n**Features Achieved:**\n- Advanced rate limiting (daily: 1500, minute: 15) and multi-user usage tracking.\n- Token counting, statistics, and persistent usage data storage.\n- Rate limit status monitoring, usage simulation, and data clearing capabilities.\n- Dedicated API endpoints for usage management.\n- Seamless integration with existing Gemini functions.\n\n**Test Results:** All tests passed successfully, confirming robust handling of rate limiting, multi-user scenarios, and usage monitoring.\n</info added on 2025-09-23T00:48:02.976Z>",
             "status": "done",
-            "testStrategy": "Simulate multiple API calls to verify usage tracking increments correctly. Test rate-limiting by making rapid successive calls and observing if requests are throttled or rejected as expected."
+            "testStrategy": "Simulate multiple API calls to verify usage tracking increments correctly. Test rate-limiting by making rapid successive calls and observing if requests are throttled or rejected as expected.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -258,12 +276,13 @@
             ],
             "details": "Implement try-catch blocks for API calls, parsing, and scoring logic. Define custom error types for specific failure scenarios (e.g., GeminiAPIError, PromptParsingError). Log errors effectively. Write integration tests that simulate a full analysis flow from input medical notes to structured scores, covering various edge cases and failure modes.\n<info added on 2025-09-23T00:50:09.698Z>\n**Status Update: COMPLETED**\n\nThe subtask \"Robust Error Handling and Integration Testing\" has been fully implemented and validated.\n\n**Key Implementations:**\n- **Error Handling:**\n    - Custom error types `GeminiAPIError` and `PromptParsingError` have been defined and implemented to categorize specific failure scenarios.\n    - Comprehensive `try-catch` blocks are now in place across all API calls, parsing logic, and scoring processes, ensuring robust error capture.\n    - Input validation, sanitization, JSON parsing error handling, and API endpoint error responses are robustly managed.\n    - Rate limiting errors are handled gracefully with detailed messages, and the system includes graceful degradation mechanisms for service failures.\n    - Errors are effectively logged for debugging and monitoring, as per the initial requirements.\n- **Integration Testing:**\n    - A comprehensive integration test suite has been created and is located at `scripts/test-integration.js`.\n    - This suite covers the full medical case analysis pipeline, including good case notes, invalid inputs, malformed requests, and single criterion analysis.\n    - Extensive coverage for error scenarios, edge cases, rate limiting integration, API endpoint availability, and concurrent request handling has been achieved.\n    - Stress testing with multiple simultaneous requests has been conducted to ensure stability under load.\n\n**Test Results:**\nAll integration tests pass successfully, confirming the system's robustness, stability, and graceful handling of various scenarios.\n\n**System Status:**\nThe Google Gemini AI Integration is now fully operational, featuring complete medical case analysis capabilities, robust error handling and validation, comprehensive usage tracking and rate limiting, full API endpoint coverage, and production-ready stability and reliability. The system is ready for production deployment and user testing.\n</info added on 2025-09-23T00:50:09.698Z>",
             "status": "done",
-            "testStrategy": "Run integration tests with valid, invalid, and edge-case medical notes. Verify that errors are caught, handled gracefully, and appropriate messages are returned. Ensure the system remains stable under stress and unexpected inputs."
+            "testStrategy": "Run integration tests with valid, invalid, and edge-case medical notes. Verify that errors are caught, handled gracefully, and appropriate messages are returned. Ensure the system remains stable under stress and unexpected inputs.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 5,
+        "id": "5",
         "title": "Case Input Interface",
         "description": "Create the main interface for users to input medical case notes",
         "status": "done",
@@ -281,7 +300,8 @@
             "dependencies": [],
             "details": "Build a large, multi-line text area component using appropriate UI elements. Ensure it is resizable and provides a clear input field for users.\n<info added on 2025-09-23T01:13:15.513Z>\nThe foundational character counting and display logic, including showing current/maximum characters and basic validation feedback, has already been established in `app/case-input/page.tsx` during the completion of subtask 5.1. This includes using `useState` to track `caseNotes` and deriving `charCount` from `caseNotes.length`.\n\nFor this subtask, the focus will be on formalizing and enhancing this existing implementation:\n*   **Apply specific character limits:** Update the character limit constants (e.g., `MIN_CHARS`, `MAX_CHARS`) in `app/case-input/page.tsx` to reflect the parent task's requirement of a minimum of 200 and a maximum of 15,000 characters.\n*   **Refine character count display:** Ensure the character count display (`current / maximum`) is always visible and dynamically updates as the user types. Enhance its visual presentation for clarity, potentially using Tailwind CSS classes for color changes based on validation status (e.g., red for invalid, green for valid).\n*   **Enhance validation feedback:** Implement clear and user-friendly visual feedback for character limit validation within `app/case-input/page.tsx`. This should explicitly inform the user when the input is below the minimum (200 characters) or exceeds the maximum (15,000 characters). The submit button's disabled state should be robustly tied to these refined validation rules.\n</info added on 2025-09-23T01:13:15.513Z>",
             "status": "done",
-            "testStrategy": "Verify the text area renders correctly, allows basic text input, and is visually consistent with design guidelines."
+            "testStrategy": "Verify the text area renders correctly, allows basic text input, and is visually consistent with design guidelines.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -292,7 +312,8 @@
             ],
             "details": "On user input, update a character counter. Display the current count (e.g., 'X / 15,000') and visually indicate if the count is outside the allowed range (200-15,000 characters).\n<info added on 2025-09-23T01:14:41.104Z>\nThe character counting and display system is now fully functional with comprehensive validation and user feedback. Key implementations include:\n- Defined `MIN_CHARS` (200) and `MAX_CHARS` (15000) constants.\n- Developed comprehensive helper functions for character counting and validation: `getCharacterCount()`, `isCharacterCountValid()`, `isCharacterCountTooLow()`, `isCharacterCountTooHigh()`, `getCharacterCountColor()`, and `getCharacterCountMessage()`.\n- Implemented dynamic character count display with color coding: Gray (empty), Yellow (below minimum with guidance), Green (valid range), and Red (exceeds maximum).\n- Added a visual validation indicator badge (Valid/Invalid).\n- Improved character count messages with locale formatting for large numbers and enhanced validation feedback with specific character counts and guidance.\n- Integrated the new validation functions into form submission and the submit button's disabled state.\n- Ensured consistent use of constants throughout the component and enhanced error messages with dynamic character counts and limits.\nThis provides clear, real-time visual feedback and helpful messages to users, ensuring a professional and intuitive experience.\n</info added on 2025-09-23T01:14:41.104Z>",
             "status": "done",
-            "testStrategy": "Test character counting accuracy for various inputs, verify display updates dynamically, and check behavior at boundary conditions (0, 199, 200, 15000, 15001 characters)."
+            "testStrategy": "Test character counting accuracy for various inputs, verify display updates dynamically, and check behavior at boundary conditions (0, 199, 200, 15000, 15001 characters).",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -304,7 +325,8 @@
             ],
             "details": "Implement validation to enforce a minimum of 200 characters and a maximum of 15,000 characters. Display clear, user-friendly error messages when validation fails, triggered on blur or attempted submission.\n<info added on 2025-09-23T01:16:56.134Z>\nThe validation logic has been significantly enhanced beyond basic character limits. It now includes explicit required field validation, detection of whitespace-only content, and a meaningful content check requiring a minimum of 10 words. State management has been introduced with `hasBlurred` and a `validationErrors` array to track interaction and accumulate multiple error messages. A comprehensive `validateInput()` function orchestrates these rules. Event handlers like `handleInputChange()` (which also clears errors on typing) and `handleInputFocus()` have been added, alongside `handleInputBlur()` for triggering validation. The display of validation feedback is now controlled by `shouldShowValidation()` and features conditional textarea styling (e.g., red border), a structured error display with an icon, a \"Please fix the following issues\" header, and a bulleted list of all active errors. The system maintains backward compatibility with any legacy validation messages. Form submission now incorporates this comprehensive validation, and the submit button's disabled state dynamically reflects the overall validation status, ensuring a robust and user-friendly experience with a smooth error clearing mechanism.\n</info added on 2025-09-23T01:16:56.134Z>",
             "status": "done",
-            "testStrategy": "Test validation for inputs below minimum, above maximum, and within the allowed range. Verify error messages appear and disappear correctly based on input validity."
+            "testStrategy": "Test validation for inputs below minimum, above maximum, and within the allowed range. Verify error messages appear and disappear correctly based on input validity.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -315,7 +337,8 @@
             ],
             "details": "Implement a mechanism to automatically save the content of the text area to local storage (or a backend API if specified by future tasks) at regular intervals or after a period of inactivity. Include visual feedback (e.g., 'Saving...', 'Saved').\n<info added on 2025-09-23T01:19:07.320Z>\nSuccessfully implemented comprehensive auto-save functionality:\n\n**Auto-Save Features Implemented:**\n- **State Management**: Added `autoSaveStatus` ('idle', 'saving', 'saved', 'error') and `lastSaved` timestamp tracking\n- **LocalStorage Integration**: Saves case notes and timestamp to browser's localStorage for persistence\n- **Debounced Auto-Save**: Implements 2-second debounce to prevent excessive saves while user is typing\n- **Data Recovery**: Automatically loads previously saved case notes on component mount\n\n**Visual Feedback System:**\n- **Saving Indicator**: Animated spinner with \"Saving...\" text during save operations\n- **Success Feedback**: Green dot with \"Saved\" confirmation for 2 seconds\n- **Error Handling**: Red dot with \"Save failed\" message for 3 seconds on errors\n- **Last Saved Time**: Shows timestamp of last successful save when idle\n- **Non-intrusive Design**: Status indicators appear inline with character count\n\n**Technical Implementation:**\n- **useCallback Optimization**: Properly memoized functions to prevent unnecessary re-renders\n- **Effect Management**: Clean useEffect implementation with proper cleanup for timeouts\n- **Error Handling**: Comprehensive try-catch with user feedback and automatic recovery\n- **Performance**: Debounced saves prevent excessive localStorage writes\n- **Persistence**: Data survives page refreshes and browser sessions\n\n**User Experience Enhancements:**\n- **Seamless Operation**: Auto-save works transparently without user intervention\n- **Visual Confirmation**: Users always know the save status of their work\n- **Data Safety**: Content is automatically preserved across sessions\n- **Error Recovery**: Clear feedback when saves fail with automatic retry capability\n\n**Storage Strategy:**\n- Uses localStorage for client-side persistence\n- Stores both content and timestamp for audit trail\n- Prepared for future backend API integration\n- Handles empty content gracefully (no unnecessary saves)\n\nThe auto-save system provides robust data protection and user confidence while maintaining excellent performance and user experience.\n</info added on 2025-09-23T01:19:07.320Z>",
             "status": "done",
-            "testStrategy": "Test auto-save triggers, data persistence across page refreshes, and the effectiveness of debounce/throttle mechanisms to prevent excessive saves. Verify visual feedback."
+            "testStrategy": "Test auto-save triggers, data persistence across page refreshes, and the effectiveness of debounce/throttle mechanisms to prevent excessive saves. Verify visual feedback.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -329,12 +352,13 @@
             ],
             "details": "Ensure seamless integration of the text area, character counter, validation feedback, and auto-save. Conduct a final review of the user experience, including accessibility and responsiveness, to ensure a smooth and intuitive input process.\n<info added on 2025-09-23T01:21:25.395Z>\nThe case input interface has been fully integrated and refined, achieving a professional and user-friendly experience.\n\n**Key implementations include:**\n*   **Seamless Feature Integration:** The `CaseInputForm.tsx` component now harmoniously combines the `Textarea` (from `src/components/ui/textarea.tsx`), `CharacterCounter` (from `src/components/case-input/CharacterCounter.tsx`), `AutoSaveIndicator` (from `src/components/case-input/AutoSaveIndicator.tsx`), and `ValidationMessage` components. The `useAutoSave` hook (from `src/hooks/useAutoSave.ts`) handles `localStorage` integration with debouncing (using `lodash/debounce`), and `useCharacterCount` (from `src/hooks/useCharacterCount.ts`) provides real-time character feedback.\n*   **Enhanced Accessibility:** Comprehensive ARIA attributes (`aria-describedby`, `aria-invalid`, `aria-required`) are applied to the `Textarea` in `CaseInputForm.tsx`. Error messages are structured with `role='alert'` and `aria-live='polite'` for screen reader compatibility, ensuring WCAG compliance. Descriptive help text and semantic HTML improve overall navigation.\n*   **Robust Responsive Design:** A mobile-first approach using Tailwind CSS utility classes (e.g., `sm:min-h-[400px]`, `sm:flex-row`, `w-full sm:w-auto` in `CaseInputForm.tsx`) ensures optimal layout across various screen sizes. Status indicators, the submit button, and character count dynamically adapt for improved mobile usability and touch targets.\n*   **Polished Visuals & Transitions:** Smooth `duration-200` transitions are applied to form elements, such as border color changes on validation state and button hover/focus states, enhancing visual feedback and overall aesthetic. Color contrast and spacing consistency have been meticulously refined for a professional medical application appearance.\n*   **Comprehensive Validation & Error Handling:** The `validateCaseNote` function in `src/lib/validation.ts` provides robust input validation, with clear, actionable error messages displayed via `ValidationMessage` components.\n*   **Optimized Performance & Quality:** The implementation leverages proper React patterns, custom hooks, and debouncing for efficient updates. The codebase is clean, maintainable, and free of linting errors, reflecting high technical quality.\n</info added on 2025-09-23T01:21:25.395Z>",
             "status": "done",
-            "testStrategy": "Perform end-to-end testing of the entire case input interface, verifying that all features work together correctly, error messages are clear, and the overall user experience is robust and intuitive."
+            "testStrategy": "Perform end-to-end testing of the entire case input interface, verifying that all features work together correctly, error messages are clear, and the overall user experience is robust and intuitive.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 6,
+        "id": "6",
         "title": "AI Analysis and Results Display",
         "description": "Implement the AI analysis workflow and results presentation",
         "status": "done",
@@ -353,7 +377,8 @@
             "dependencies": [],
             "details": "Implement endpoint, handle input validation, call Gemini AI, parse AI output, format results for frontend consumption.\n<info added on 2025-09-23T01:38:54.687Z>\n{\n  \"caseNote\": \"Patient presents with...\",\n  \"useComprehensive\": true\n}\n</info added on 2025-09-23T01:38:54.687Z>",
             "status": "done",
-            "testStrategy": "Test API endpoint with various sample case data, verify correct AI invocation and structured output format."
+            "testStrategy": "Test API endpoint with various sample case data, verify correct AI invocation and structured output format.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -364,7 +389,8 @@
             ],
             "details": "Create a form or input area for case data, implement a submission button, and integrate the API call to `/api/analyze-case`.\n<info added on 2025-09-23T01:41:11.917Z>\nThe frontend analysis trigger has been fully implemented, expanding beyond the initial scope to include the complete workflow from case input to results display.\n\n**Case Input Integration (`app/case-input/page.tsx`):**\n- The `handleSubmit` function now properly configures the POST request to `/api/analyze-case` including `useComprehensive: true`.\n- Upon successful analysis, results and usage data are stored in `localStorage`.\n- The user is then redirected to the `/analysis-results` page.\n- Comprehensive error handling for API failures and network issues has been implemented.\n- Existing loading states are maintained during the API call.\n\n**Analysis Results Page (`app/analysis-results/page.tsx`):**\n- A new page, `app/analysis-results/page.tsx`, has been created to display comprehensive analysis data.\n- This page is protected by user authentication, redirecting unauthenticated users.\n- It retrieves analysis results from `localStorage` with robust error handling.\n- The display includes an overall assessment showing total score, percentage, and an overall grade (A-D).\n- Detailed feedback for all four criteria (History & Physical, Differential Diagnosis, Assessment & Plan, Follow-up) is presented with individual scores, feedback, and corresponding icons.\n- The UI features a professional medical interface with color-coded scores and displays API usage statistics and analysis metadata.\n- Navigation options are provided for users to analyze another case or return to the dashboard.\n- The design is responsive, ensuring a mobile-friendly layout.\n</info added on 2025-09-23T01:41:11.917Z>",
             "status": "done",
-            "testStrategy": "Verify that submitting data via the UI successfully calls the backend analysis API."
+            "testStrategy": "Verify that submitting data via the UI successfully calls the backend analysis API.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -375,7 +401,8 @@
             ],
             "details": "Display a spinner or progress bar upon analysis submission, manage disabling/enabling UI elements during loading, and handle error states during the API call.",
             "status": "done",
-            "testStrategy": "Verify that loading states are correctly displayed when analysis is triggered and hidden upon completion or error."
+            "testStrategy": "Verify that loading states are correctly displayed when analysis is triggered and hidden upon completion or error.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -386,7 +413,8 @@
             ],
             "details": "Design and implement dedicated UI sections (e.g., cards, expandable panels) to clearly show the score and specific feedback for each criterion.",
             "status": "done",
-            "testStrategy": "Verify that detailed scores and feedback for all criteria are correctly extracted from the API response and rendered accurately in the UI."
+            "testStrategy": "Verify that detailed scores and feedback for all criteria are correctly extracted from the API response and rendered accurately in the UI.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -397,15 +425,16 @@
             ],
             "details": "Design and implement a prominent UI element (e.g., a summary box, a final grade) to display the overall assessment clearly.",
             "status": "done",
-            "testStrategy": "Verify that the overall assessment is correctly extracted from the API response and displayed prominently in the UI."
+            "testStrategy": "Verify that the overall assessment is correctly extracted from the API response and displayed prominently in the UI.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 7,
+        "id": "7",
         "title": "Case Management System",
         "description": "Build functionality to save, view, and manage case history",
-        "status": "in-progress",
+        "status": "done",
         "priority": "medium",
         "dependencies": [
           "6"
@@ -420,7 +449,8 @@
             "dependencies": [],
             "details": "Modify `prisma/schema.prisma` to add necessary score fields (e.g., `Int` or `Float`) and a `String` field for `title`/`summary`. Create `src/app/api/cases/route.ts` with a `POST` handler. Use `PrismaClient` to create a new `Case` record. Ensure user authentication is enforced using NextAuth.js session data to link the case to the `userId`. The scoring logic from Task 4 should be invoked or its results passed and stored.",
             "status": "done",
-            "testStrategy": "Use Postman/Insomnia or a simple client-side fetch to send case data (including case notes and user ID) to the API. Verify that a new case record is created in the database with correct scores, case notes, and user association. Test with valid and invalid user sessions."
+            "testStrategy": "Use Postman/Insomnia or a simple client-side fetch to send case data (including case notes and user ID) to the API. Verify that a new case record is created in the database with correct scores, case notes, and user association. Test with valid and invalid user sessions.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -431,7 +461,8 @@
             ],
             "details": "Extend `src/app/api/cases/route.ts` with a `GET` handler. Use Prisma's `findMany`, `skip`, `take`, and `where` clauses for implementing pagination and filtering logic. Ensure proper authentication and authorization so that users can only retrieve their own cases. The `where` clause should filter by `userId`, `createdAt` (for date range), and `totalScore` (for score range).",
             "status": "done",
-            "testStrategy": "Test the API with various combinations of query parameters: no parameters (all cases for the user), `page` and `limit`, `startDate` and `endDate`, `minScore` and `maxScore`, and combinations of these. Verify correct data is returned, pagination works as expected, and unauthorized access attempts (e.g., trying to fetch another user's cases) are denied."
+            "testStrategy": "Test the API with various combinations of query parameters: no parameters (all cases for the user), `page` and `limit`, `startDate` and `endDate`, `minScore` and `maxScore`, and combinations of these. Verify correct data is returned, pagination works as expected, and unauthorized access attempts (e.g., trying to fetch another user's cases) are denied.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -442,7 +473,8 @@
             ],
             "details": "Create `src/app/history/page.tsx`. Use `useState` and `useEffect` hooks for fetching and managing case data based on current page, filters, and sorting. Implement UI components for pagination (e.g., buttons, page numbers) and filtering (e.g., date input fields, range sliders for scores). Update the URL query parameters as filters are applied to enable shareable links and browser history.",
             "status": "done",
-            "testStrategy": "Verify that cases are displayed correctly in a list/table. Test pagination by navigating through pages. Apply various date and score filters and confirm that the displayed cases update accurately. Check for empty states when no cases match the applied filters. Ensure UI elements are responsive and user-friendly."
+            "testStrategy": "Verify that cases are displayed correctly in a list/table. Test pagination by navigating through pages. Apply various date and score filters and confirm that the displayed cases update accurately. Check for empty states when no cases match the applied filters. Ensure UI elements are responsive and user-friendly.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -454,7 +486,8 @@
             ],
             "details": "Create `src/app/api/cases/[id]/route.ts` with a `DELETE` handler. Use Prisma's `delete` method, ensuring authorization checks so users can only delete their own cases based on `userId`. In the `src/app/history/page.tsx` component, add a delete button for each case. Implement a confirmation dialog (e.g., using a modal) before calling the deletion API. After successful deletion, update the UI to remove the deleted case.",
             "status": "done",
-            "testStrategy": "From the UI, click the delete button for a case, confirm deletion, and verify that the case is removed from the displayed list and the database. Attempt to delete a case without confirmation. If possible, test unauthorized deletion attempts (e.g., trying to delete another user's case via direct API call) to ensure robust authorization."
+            "testStrategy": "From the UI, click the delete button for a case, confirm deletion, and verify that the case is removed from the displayed list and the database. Attempt to delete a case without confirmation. If possible, test unauthorized deletion attempts (e.g., trying to delete another user's case via direct API call) to ensure robust authorization.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -466,15 +499,16 @@
             ],
             "details": "Modify `src/app/history/page.tsx` to make each case entry a link to `/history/[id]`. Create a new dynamic route page `src/app/history/[id]/page.tsx`. Implement a `GET` handler in `src/app/api/cases/[id]/route.ts` to fetch a single case by its ID, ensuring it belongs to the authenticated user. On the details page, display all relevant case fields, including the full `caseNotes` and all individual score breakdowns, in a clear and readable format.",
             "status": "done",
-            "testStrategy": "Click on various cases from the history list and verify that the correct detailed information is displayed on the dedicated 'Case Details' page. Check that all individual scores and the full case notes are present and correctly formatted. Test navigation back to the history list. Verify error handling for non-existent or unauthorized case IDs."
+            "testStrategy": "Click on various cases from the history list and verify that the correct detailed information is displayed on the dedicated 'Case Details' page. Check that all individual scores and the full case notes are present and correctly formatted. Test navigation back to the history list. Verify error handling for non-existent or unauthorized case IDs.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 8,
+        "id": "8",
         "title": "User Dashboard and Analytics",
         "description": "Create user dashboard with progress tracking and statistics",
-        "status": "in-progress",
+        "status": "done",
         "priority": "medium",
         "dependencies": [
           "7"
@@ -489,7 +523,8 @@
             "dependencies": [],
             "details": "Create `pages/dashboard.tsx`. Implement `getServerSideProps` in `pages/dashboard.tsx` or create a new API route (e.g., `pages/api/user/dashboard-data.ts`) to query the database. The query should retrieve `User`'s `Case`s, and for each `Case`, include its `AnalysisResult` (if available). Ensure data is ordered by `createdAt` for cases and handle authentication to ensure only the logged-in user's data is fetched.",
             "status": "done",
-            "testStrategy": "Verify the dashboard page loads correctly and `console.log` the fetched data to ensure it contains the user's cases and their analysis results, including scores and creation dates."
+            "testStrategy": "Verify the dashboard page loads correctly and `console.log` the fetched data to ensure it contains the user's cases and their analysis results, including scores and creation dates.",
+            "parentId": "undefined"
           },
           {
             "id": 2,
@@ -500,7 +535,8 @@
             ],
             "details": "Create `components/dashboard/RecentCasesList.tsx`. This component will receive the fetched case data as props. Display a maximum of 5-10 recent cases. Include a 'View All Cases' link if applicable. Leverage existing UI patterns for links and list items from `pages/case/[id]/results.tsx` or `components/AnalysisResultsDisplay.tsx`.",
             "status": "done",
-            "testStrategy": "Render the component with mock data (including cases with and without analysis results) and verify that recent cases are displayed correctly with accurate scores and working links to their respective results pages."
+            "testStrategy": "Render the component with mock data (including cases with and without analysis results) and verify that recent cases are displayed correctly with accurate scores and working links to their respective results pages.",
+            "parentId": "undefined"
           },
           {
             "id": 3,
@@ -511,7 +547,8 @@
             ],
             "details": "Research and select a suitable charting library (e.g., `react-chartjs-2`, `recharts`). Create `components/dashboard/ScoreTrendsChart.tsx`. The component should accept an array of `AnalysisResult` objects. Extract `overallScore` and `createdAt` for plotting. Display a line chart showing score progression. Ensure dates are correctly formatted on the x-axis.",
             "status": "done",
-            "testStrategy": "Provide the chart component with a series of mock analysis results with varying scores and dates. Verify that the chart renders correctly and accurately reflects the score trend over time."
+            "testStrategy": "Provide the chart component with a series of mock analysis results with varying scores and dates. Verify that the chart renders correctly and accurately reflects the score trend over time.",
+            "parentId": "undefined"
           },
           {
             "id": 4,
@@ -522,7 +559,8 @@
             ],
             "details": "Create `components/dashboard/ImprovementAnalytics.tsx`. This component will receive the full list of `AnalysisResult` objects. Calculate and display: overall average score, highest overall score achieved, lowest overall score achieved. Optionally, add a simple indicator like 'Score improved by X points in the last 5 cases' if enough data points exist.",
             "status": "done",
-            "testStrategy": "Test with various sets of mock analysis results (e.g., all high scores, all low scores, mixed scores, increasing scores) to ensure calculations for average, high, and low scores are accurate. Verify the improvement indicator works as expected."
+            "testStrategy": "Test with various sets of mock analysis results (e.g., all high scores, all low scores, mixed scores, increasing scores) to ensure calculations for average, high, and low scores are accurate. Verify the improvement indicator works as expected.",
+            "parentId": "undefined"
           },
           {
             "id": 5,
@@ -533,15 +571,16 @@
             ],
             "details": "Modify `components/layout.tsx` or similar navigation component to include a link to `/dashboard`. Ensure this link is only visible to authenticated users. On `pages/dashboard.tsx`, create a prominent section with buttons/links for: 'Start New Case Analysis' (linking to `/case/new`) and 'View All Cases' (which could link to a dedicated page or a more comprehensive list on the dashboard itself).",
             "status": "done",
-            "testStrategy": "Verify that the dashboard link appears in the navigation for logged-in users and correctly navigates to the dashboard. Test that quick action buttons on the dashboard navigate to the correct pages (`/case/new` and potentially a 'View All Cases' page)."
+            "testStrategy": "Verify that the dashboard link appears in the navigation for logged-in users and correctly navigates to the dashboard. Test that quick action buttons on the dashboard navigate to the correct pages (`/case/new` and potentially a 'View All Cases' page).",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 9,
+        "id": "9",
         "title": "Responsive UI Design and Styling",
         "description": "Implement responsive design with Tailwind CSS for all devices",
-        "status": "pending",
+        "status": "in-progress",
         "priority": "medium",
         "dependencies": [
           "5",
@@ -551,13 +590,77 @@
         ],
         "details": "Style all components with professional medical-grade design, ensure mobile responsiveness, implement accessibility features (WCAG 2.1 AA), and create consistent UI patterns.",
         "testStrategy": "Test on various screen sizes and devices, verify accessibility compliance.",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Configure Tailwind CSS for Responsive Design and Base Styles",
+            "description": "Set up Tailwind CSS configuration to enable responsive utilities and define foundational styles for the application, adhering to medical-grade design principles.",
+            "dependencies": [],
+            "details": "Configure `tailwind.config.js` for breakpoints, custom colors (medical-grade palette), typography, and spacing. Implement basic global styles (e.g., body font, default link styles) using Tailwind directives to establish a clean, professional base.",
+            "status": "pending",
+            "testStrategy": "Verify Tailwind classes apply correctly and responsive breakpoints are active by testing simple elements on different screen sizes. Confirm custom color palette and typography are loaded.",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "Develop Medical-Grade UI Patterns and Component Styling",
+            "description": "Design and style all core UI components with professional medical-grade aesthetics and create consistent UI patterns using Tailwind CSS.",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Define and implement styles for common UI elements such as buttons, input fields, cards, navigation, modals, and data displays. Ensure consistency in padding, margins, borders, shadows, and overall visual hierarchy across all components, adhering to a clean, professional medical aesthetic. Create reusable component classes or utility patterns.",
+            "status": "pending",
+            "testStrategy": "Visually inspect all styled components for consistency, adherence to defined design guidelines, and professional appearance across the application. Verify consistent UI patterns are applied.",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "Implement Mobile Responsiveness for Main Layouts and Components",
+            "description": "Apply Tailwind's responsive utilities to adapt the application's layouts and critical components for optimal viewing and interaction on mobile devices and smaller screens.",
+            "dependencies": [
+              "9.1",
+              "9.2"
+            ],
+            "details": "Use Tailwind's breakpoint prefixes (e.g., `sm:`, `md:`, `lg:`) to adjust component layouts, font sizes, spacing, and visibility for different screen sizes. Focus on ensuring the main case input interface, navigation, and results display are fully functional and aesthetically pleasing on mobile devices.",
+            "status": "pending",
+            "testStrategy": "Test the application on various mobile device emulators and actual devices (e.g., phone, tablet) to ensure layouts reflow correctly, elements are tappable, and content remains readable without horizontal scrolling.",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "Integrate WCAG 2.1 AA Accessibility Features",
+            "description": "Integrate comprehensive accessibility features into the UI to comply with WCAG 2.1 AA guidelines, ensuring the application is usable by individuals with disabilities.",
+            "dependencies": [
+              "9.2",
+              "9.3"
+            ],
+            "details": "Add appropriate ARIA attributes (e.g., `aria-label`, `aria-describedby`, `role`) to interactive elements. Ensure proper focus management for keyboard navigation, provide sufficient color contrast for all text and interactive elements, implement semantic HTML structures, and add descriptive alt text for all meaningful images.",
+            "status": "pending",
+            "testStrategy": "Conduct automated accessibility audits (e.g., Lighthouse, Axe DevTools) and perform manual keyboard navigation tests. Verify color contrast ratios meet WCAG AA standards and test with screen readers (e.g., VoiceOver, NVDA) to ensure content is correctly announced.",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "Cross-Browser Compatibility and Final Responsiveness Audit",
+            "description": "Perform a comprehensive review and testing across different browsers and devices to ensure consistent UI appearance and functionality, and finalize responsiveness.",
+            "dependencies": [
+              "9.1",
+              "9.2",
+              "9.3",
+              "9.4"
+            ],
+            "details": "Test the application on major browsers (Chrome, Firefox, Safari, Edge) and various device types/sizes to identify and resolve any layout issues, styling inconsistencies, or functional discrepancies. Optimize CSS and responsive rendering for performance across all target environments.",
+            "status": "pending",
+            "testStrategy": "Use browser developer tools to simulate different devices and browsers. Conduct manual testing on physical devices and different browser versions. Document and fix any identified UI/UX bugs or inconsistencies to ensure a polished user experience.",
+            "parentId": "undefined"
+          }
+        ]
       },
       {
-        "id": 10,
+        "id": "10",
         "title": "Security and Data Protection",
         "description": "Implement security measures and data protection features",
-        "status": "pending",
+        "status": "done",
         "priority": "high",
         "dependencies": [
           "3",
@@ -568,7 +671,7 @@
         "subtasks": []
       },
       {
-        "id": 11,
+        "id": "11",
         "title": "Deployment and CI/CD Setup",
         "description": "Set up deployment pipeline with Vercel and configure CI/CD",
         "status": "pending",
@@ -589,12 +692,13 @@
             ],
             "details": "Obtain the connection string for Vercel Postgres. Add this `DATABASE_URL` as a secret environment variable in Vercel for production deployments. Update `package.json` with a `postinstall` script or a dedicated `deploy-migrations` script that runs `npx prisma migrate deploy` to apply migrations during Vercel builds.",
             "status": "pending",
-            "testStrategy": "Document the steps for setting Vercel environment variables. Verify the `package.json` script for production migrations is correctly added."
+            "testStrategy": "Document the steps for setting Vercel environment variables. Verify the `package.json` script for production migrations is correctly added.",
+            "parentId": "undefined"
           }
         ]
       },
       {
-        "id": 12,
+        "id": "12",
         "title": "Testing and Quality Assurance",
         "description": "Implement comprehensive testing suite and quality assurance processes",
         "status": "pending",
@@ -608,9 +712,13 @@
       }
     ],
     "metadata": {
-      "created": "2025-09-17T01:32:03.205Z",
-      "updated": "2025-09-23T13:59:55.168Z",
-      "description": "Tasks for master context"
+      "version": "1.0.0",
+      "lastModified": "2025-09-24T22:47:25.315Z",
+      "taskCount": 12,
+      "completedCount": 9,
+      "tags": [
+        "master"
+      ]
     }
   }
 }

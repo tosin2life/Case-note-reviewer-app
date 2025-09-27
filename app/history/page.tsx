@@ -4,6 +4,10 @@ import { Suspense, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { FullPageSpinner } from '@/components/ui/spinner'
+import { Home, FileText } from 'lucide-react'
+import toast from 'react-hot-toast'
+import ConfirmationModal from '@/components/ui/confirmation-modal'
 
 interface CaseListItem {
   id: string
@@ -29,6 +33,9 @@ function HistoryInner() {
   const [endDate, setEndDate] = useState<string>('')
   const [minScore, setMinScore] = useState<string>('')
   const [maxScore, setMaxScore] = useState<string>('')
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [caseToDelete, setCaseToDelete] = useState<CaseListItem | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -67,19 +74,70 @@ function HistoryInner() {
     router,
   ])
 
+  const handleDeleteClick = (caseItem: CaseListItem) => {
+    setCaseToDelete(caseItem)
+    setShowDeleteModal(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!caseToDelete) return
+
+    try {
+      setIsDeleting(true)
+      const res = await fetch(`/api/cases/${caseToDelete.id}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+      if (res.ok && data.success) {
+        // Remove the case from the list
+        setItems(prev => prev.filter(x => x.id !== caseToDelete.id))
+        toast.success('Case deleted successfully')
+        setShowDeleteModal(false)
+        setCaseToDelete(null)
+      } else {
+        toast.error(data.message || 'Failed to delete case')
+      }
+    } catch (error) {
+      console.error('Error deleting case:', error)
+      toast.error('Network error while deleting case')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false)
+    setCaseToDelete(null)
+  }
+
   if (status === 'loading' || loading) {
-    return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600'></div>
-      </div>
-    )
+    return <FullPageSpinner variant='medical' />
   }
 
   return (
     <div className='min-h-screen bg-gray-50'>
       <main className='max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
+        {/* Header with Navigation */}
         <div className='mb-6'>
-          <h1 className='text-2xl font-bold text-gray-900'>Case History</h1>
+          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+            <h1 className='text-2xl font-bold text-gray-900'>Case History</h1>
+            <div className='flex flex-col sm:flex-row gap-3'>
+              <Link
+                href='/dashboard'
+                className='inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200'
+              >
+                <Home className='h-4 w-4 mr-2' />
+                Dashboard
+              </Link>
+              <Link
+                href='/case-input'
+                className='inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200'
+              >
+                <FileText className='h-4 w-4 mr-2' />
+                New Analysis
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Filters */}
@@ -156,19 +214,7 @@ function HistoryInner() {
                       View
                     </Link>
                     <button
-                      onClick={async () => {
-                        if (!confirm('Delete this case?')) return
-                        const res = await fetch(`/api/cases/${item.id}`, {
-                          method: 'DELETE',
-                        })
-                        const data = await res.json()
-                        if (res.ok && data.success) {
-                          // refresh current page data
-                          setItems(prev => prev.filter(x => x.id !== item.id))
-                        } else {
-                          alert(data.message || 'Failed to delete case')
-                        }
-                      }}
+                      onClick={() => handleDeleteClick(item)}
                       className='text-red-600 text-sm hover:underline'
                     >
                       Delete
@@ -200,7 +246,38 @@ function HistoryInner() {
             Next
           </button>
         </div>
+
+        {/* Bottom Navigation */}
+        <div className='mt-8 flex flex-col sm:flex-row gap-4 justify-center'>
+          <Link
+            href='/dashboard'
+            className='inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200'
+          >
+            <Home className='h-5 w-5 mr-2' />
+            Back to Dashboard
+          </Link>
+          <Link
+            href='/case-input'
+            className='inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200'
+          >
+            <FileText className='h-5 w-5 mr-2' />
+            Analyze New Case
+          </Link>
+        </div>
       </main>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        title='Delete Case'
+        message={`Are you sure you want to delete "${caseToDelete?.title || 'Untitled case'}"? This action cannot be undone.`}
+        confirmText='Delete'
+        cancelText='Cancel'
+        variant='danger'
+        isLoading={isDeleting}
+      />
     </div>
   )
 }

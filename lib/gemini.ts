@@ -11,22 +11,52 @@ export const initializeGemini = () => {
   return new GoogleGenerativeAI(apiKey)
 }
 
-// Get the Gemini model instance
-export const getGeminiModel = (modelName: string = 'gemini-1.5-flash') => {
+// Available model names in order of preference
+const AVAILABLE_MODELS = [
+  'gemini-1.5-pro',
+  'gemini-1.5-pro-001',
+  'gemini-1.5-pro-002',
+  'gemini-1.0-pro',
+  'gemini-pro',
+]
+
+// Get the Gemini model instance with fallback support
+export const getGeminiModel = (modelName?: string) => {
   const genAI = initializeGemini()
-  return genAI.getGenerativeModel({ model: modelName })
+  const targetModel = modelName || AVAILABLE_MODELS[0]
+  return genAI.getGenerativeModel({ model: targetModel })
+}
+
+// Test model availability and get the best working model
+export const getBestAvailableModel = async (): Promise<string> => {
+  const genAI = initializeGemini()
+
+  for (const modelName of AVAILABLE_MODELS) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName })
+      await model.generateContent('test')
+      console.log(`✅ Using model: ${modelName}`)
+      return modelName
+    } catch (error) {
+      console.log(`❌ Model ${modelName} not available: ${error.message}`)
+    }
+  }
+
+  throw new GeminiAPIError('No available Gemini models found')
 }
 
 // Test connection to Gemini API
 export const testGeminiConnection = async () => {
   try {
-    const model = getGeminiModel()
+    const bestModel = await getBestAvailableModel()
+    const model = getGeminiModel(bestModel)
     const result = await model.generateContent('Hello, this is a test message.')
     const response = await result.response
     return {
       success: true,
-      message: 'Successfully connected to Gemini API',
+      message: `Successfully connected to Gemini API using model: ${bestModel}`,
       response: response.text(),
+      model: bestModel,
     }
   } catch (error) {
     console.error('Gemini API connection test failed:', error)
@@ -59,7 +89,7 @@ export class PromptParsingError extends Error {
 // Rate limiting configuration
 export const RATE_LIMIT_CONFIG = {
   MAX_REQUESTS_PER_MINUTE: 15, // Gemini free tier limit
-  MAX_TOKENS_PER_REQUEST: 32000, // Gemini 1.5 Flash limit
+  MAX_TOKENS_PER_REQUEST: 32000, // Gemini 1.5 Pro limit
   MAX_OUTPUT_TOKENS: 8192,
 }
 
@@ -146,7 +176,8 @@ export const analyzeCriterion = async (
       )
     }
 
-    const model = getGeminiModel()
+    const bestModel = await getBestAvailableModel()
+    const model = getGeminiModel(bestModel)
 
     let prompt: string
     switch (criterion) {
@@ -242,7 +273,8 @@ export const analyzeMedicalCase = async (
       )
     }
 
-    const model = getGeminiModel()
+    const bestModel = await getBestAvailableModel()
+    const model = getGeminiModel(bestModel)
     const prompt = COMPREHENSIVE_ANALYSIS_PROMPT(caseNote)
 
     const result = await model.generateContent(prompt)

@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
+import { FullPageSpinner } from '@/components/ui/spinner'
 import {
   FileText,
   ArrowLeft,
@@ -92,11 +94,7 @@ export default function AnalysisResultsPage() {
   }, [session, status, router])
 
   if (status === 'loading' || isLoading) {
-    return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600'></div>
-      </div>
-    )
+    return <FullPageSpinner variant='medical' />
   }
 
   if (!session || !analysisResults) {
@@ -243,7 +241,7 @@ export default function AnalysisResultsPage() {
               <button
                 onClick={async () => {
                   if (!caseNotes || caseNotes.length < 200) {
-                    alert('Case notes are missing or too short to save.')
+                    toast.error('Case notes are missing or too short to save.')
                     return
                   }
                   try {
@@ -266,14 +264,14 @@ export default function AnalysisResultsPage() {
                     })
                     const data = await res.json()
                     if (res.ok && data.success) {
-                      alert('Case saved successfully.')
-                      router.push('/history')
+                      toast.success('Case saved successfully!')
+                      router.push('/case-input')
                     } else {
-                      alert(data.message || 'Failed to save case.')
+                      toast.error(data.message || 'Failed to save case.')
                     }
                   } catch (e) {
                     console.error(e)
-                    alert('Network error while saving case.')
+                    toast.error('Network error while saving case.')
                   } finally {
                     setIsSaving(false)
                   }

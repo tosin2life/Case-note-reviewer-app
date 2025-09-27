@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
+import ConfirmationModal from '@/components/ui/confirmation-modal'
 
 interface CaseDetail {
   id: string
@@ -28,6 +30,7 @@ export default function CaseDetailsPage() {
   const [item, setItem] = useState<CaseDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -43,6 +46,38 @@ export default function CaseDetailsPage() {
       })
       .finally(() => setLoading(false))
   }, [session, status, params.id, router])
+
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true)
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!item) return
+
+    try {
+      setDeleting(true)
+      const res = await fetch(`/api/cases/${item.id}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+      if (res.ok && data.success) {
+        toast.success('Case deleted successfully')
+        router.push('/history')
+      } else {
+        toast.error(data.message || 'Failed to delete case')
+      }
+    } catch (error) {
+      console.error('Error deleting case:', error)
+      toast.error('Network error while deleting case')
+    } finally {
+      setDeleting(false)
+      setShowDeleteModal(false)
+    }
+  }
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false)
+  }
 
   if (status === 'loading' || loading) {
     return (
@@ -70,27 +105,11 @@ export default function CaseDetailsPage() {
               Back
             </Link>
             <button
-              onClick={async () => {
-                if (!confirm('Delete this case?')) return
-                try {
-                  setDeleting(true)
-                  const res = await fetch(`/api/cases/${item.id}`, {
-                    method: 'DELETE',
-                  })
-                  const data = await res.json()
-                  if (res.ok && data.success) {
-                    router.push('/history')
-                  } else {
-                    alert(data.message || 'Failed to delete case')
-                  }
-                } finally {
-                  setDeleting(false)
-                }
-              }}
+              onClick={handleDeleteClick}
               disabled={deleting}
               className='px-3 py-1 border rounded text-red-600 border-red-300 disabled:opacity-50'
             >
-              {deleting ? 'Deleting…' : 'Delete'}
+              Delete
             </button>
           </div>
         </div>
@@ -156,6 +175,19 @@ export default function CaseDetailsPage() {
           </div>
         </div>
       </main>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        title='Delete Case'
+        message={`Are you sure you want to delete "${item?.title || 'Untitled case'}"? This action cannot be undone.`}
+        confirmText='Delete'
+        cancelText='Cancel'
+        variant='danger'
+        isLoading={deleting}
+      />
     </div>
   )
 }
