@@ -20,7 +20,27 @@ async function testGeminiConnection() {
     console.log('🔑 API Key found, initializing Gemini client...')
 
     const genAI = new GoogleGenerativeAI(apiKey)
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    
+    // Try different models in order of preference
+    const modelsToTry = ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-pro-latest']
+    let model = null
+    let workingModel = null
+    
+    for (const modelName of modelsToTry) {
+      try {
+        model = genAI.getGenerativeModel({ model: modelName })
+        workingModel = modelName
+        console.log(`✅ Using model: ${modelName}`)
+        break
+      } catch (error) {
+        console.log(`⚠️  Model ${modelName} not available: ${error.message}`)
+        continue
+      }
+    }
+    
+    if (!model) {
+      throw new Error('No available Gemini models found')
+    }
 
     console.log('🧪 Testing Gemini API connection...')
 
@@ -30,7 +50,7 @@ async function testGeminiConnection() {
     const response = await result.response
     const text = response.text()
 
-    console.log('✅ Gemini API connection successful!')
+    console.log(`✅ Gemini API connection successful with model: ${workingModel}!`)
     console.log('📝 Response:', text)
 
     return { success: true, response: text }

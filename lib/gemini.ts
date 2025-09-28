@@ -8,63 +8,56 @@ export const initializeGemini = () => {
     throw new Error('GOOGLE_API_KEY environment variable is not set')
   }
 
+  // Initialize without specifying API version to use default
   return new GoogleGenerativeAI(apiKey)
 }
 
-// Available model names in order of preference
+// Available Gemini models in order of preference
 const AVAILABLE_MODELS = [
-  'gemini-1.5-pro',
-  'gemini-1.5-pro-001',
-  'gemini-1.5-pro-002',
-  'gemini-1.0-pro',
-  'gemini-pro',
+  'gemini-2.5-flash',
+  'gemini-2.5-pro',
+  'gemini-2.0-flash',
+  'gemini-flash-latest',
+  'gemini-pro-latest'
 ]
 
 // Get the Gemini model instance with fallback support
 export const getGeminiModel = (modelName?: string) => {
   const genAI = initializeGemini()
-  const targetModel = modelName || AVAILABLE_MODELS[0]
-  return genAI.getGenerativeModel({ model: targetModel })
+  
+  if (modelName) {
+    return genAI.getGenerativeModel({ model: modelName })
+  }
+  
+  // Use the first available model as default
+  return genAI.getGenerativeModel({ model: AVAILABLE_MODELS[0] })
 }
 
-// Test model availability and get the best working model
-export const getBestAvailableModel = async (): Promise<string> => {
-  const genAI = initializeGemini()
-
-  for (const modelName of AVAILABLE_MODELS) {
+// Test connection to Gemini API with model fallback
+export const testGeminiConnection = async (preferredModel?: string) => {
+  const modelsToTest = preferredModel ? [preferredModel, ...AVAILABLE_MODELS] : AVAILABLE_MODELS
+  
+  for (const modelName of modelsToTest) {
     try {
-      const model = genAI.getGenerativeModel({ model: modelName })
-      await model.generateContent('test')
-      console.log(`✅ Using model: ${modelName}`)
-      return modelName
+      const model = getGeminiModel(modelName)
+      const result = await model.generateContent('Hello, this is a test message.')
+      const response = await result.response
+      return {
+        success: true,
+        message: `Successfully connected to Gemini API using model: ${modelName}`,
+        model: modelName,
+        response: response.text(),
+      }
     } catch (error) {
-      console.log(`❌ Model ${modelName} not available: ${error.message}`)
+      console.warn(`Failed to connect with model ${modelName}:`, error instanceof Error ? error.message : 'Unknown error')
+      continue
     }
   }
-
-  throw new GeminiAPIError('No available Gemini models found')
-}
-
-// Test connection to Gemini API
-export const testGeminiConnection = async () => {
-  try {
-    const bestModel = await getBestAvailableModel()
-    const model = getGeminiModel(bestModel)
-    const result = await model.generateContent('Hello, this is a test message.')
-    const response = await result.response
-    return {
-      success: true,
-      message: `Successfully connected to Gemini API using model: ${bestModel}`,
-      response: response.text(),
-      model: bestModel,
-    }
-  } catch (error) {
-    console.error('Gemini API connection test failed:', error)
-    return {
-      success: false,
-      message: 'Failed to connect to Gemini API',
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+  
+  return {
+    success: false,
+    message: 'Failed to connect to Gemini API with any available model',
+    error: 'All model attempts failed',
   }
 }
 
@@ -176,8 +169,7 @@ export const analyzeCriterion = async (
       )
     }
 
-    const bestModel = await getBestAvailableModel()
-    const model = getGeminiModel(bestModel)
+    const model = getGeminiModel()
 
     let prompt: string
     switch (criterion) {
@@ -273,8 +265,7 @@ export const analyzeMedicalCase = async (
       )
     }
 
-    const bestModel = await getBestAvailableModel()
-    const model = getGeminiModel(bestModel)
+    const model = getGeminiModel()
     const prompt = COMPREHENSIVE_ANALYSIS_PROMPT(caseNote)
 
     const result = await model.generateContent(prompt)
